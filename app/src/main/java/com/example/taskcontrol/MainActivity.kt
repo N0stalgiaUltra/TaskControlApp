@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.LoginFragment
 import com.example.taskcontrol.uxui.auth.LoginScreen
+import com.example.taskcontrol.uxui.auth.MainScreen
 import com.example.taskcontrol.uxui.auth.RegisterScreen
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
                     //LoginScreen()
-                    RegisterScreen()
+                    //RegisterScreen()
+                    MainScreen()
                 }
 
             }
