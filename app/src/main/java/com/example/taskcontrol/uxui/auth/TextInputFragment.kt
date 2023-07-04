@@ -12,6 +12,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -22,17 +26,21 @@ import androidx.compose.ui.unit.dp
 fun textInputFragment(label: String, placeholder: String) {
     CreateText(
         text = label,
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
     )
+    var text by remember { mutableStateOf("") }
 
     TextField(
-        value = placeholder,
-        onValueChange = {},
+        value = text,
+        onValueChange = {text = it},
         Modifier.fillMaxWidth(),
         colors = textFieldColors(
             textColor = MaterialTheme.colorScheme.background,
-            containerColor = MaterialTheme.colorScheme.secondary)
+            containerColor = MaterialTheme.colorScheme.primary),
+        placeholder = {
+            Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+        }
 
     )
     Spacer(modifier = Modifier.height(8.dp))

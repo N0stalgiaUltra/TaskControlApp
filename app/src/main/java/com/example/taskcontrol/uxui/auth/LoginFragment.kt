@@ -35,9 +35,8 @@ import androidx.compose.ui.unit.sp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-public fun LoginScreen(){
+fun LoginScreen(onNavigateToRegister: () -> Unit){
     TaskControlTheme(true) {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -56,7 +55,7 @@ public fun LoginScreen(){
                         .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
                         //change this to curr color theme
-                        MaterialTheme.colorScheme.secondary
+                        MaterialTheme.colorScheme.primary
                     )
 
                 ) {
@@ -71,15 +70,15 @@ public fun LoginScreen(){
                 Spacer(modifier = Modifier.height(5.dp))
                 Row() {
                     Text(
-                        text = "Criar Conta",
-                        color = MaterialTheme.colorScheme.secondary,
+                        text = "Sign Up",
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
-                            .clickable { /*TODO*/ }
+                            .clickable { onNavigateToRegister() }
                             .weight(1f)
                     )
                     Text(
-                        text = "Recuperar Conta",
-                        color = MaterialTheme.colorScheme.secondary,
+                        text = "Retrieve Account",
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.clickable { /*TODO*/ }
                     )
                 }
@@ -89,5 +88,4 @@ public fun LoginScreen(){
     }
 
 }
-
 

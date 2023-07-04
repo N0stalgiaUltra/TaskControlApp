@@ -103,12 +103,9 @@ fun MainScreen(){
     {
         //isso é feito no content para evitar problemas de layout
         paddingValues -> Column(modifier = Modifier.padding(paddingValues)) {
-            Text(text = "Teste")
-            Text(text = "Teste")
-            Text(text = "Teste")
-            Text(text = "Teste")
-            Text(text = "Teste")
-            Text(text = "Teste")
+            TaskCard(taskName = "Compor samba para o Salgueiro")
+            TaskCard(taskName = "Terminar faculdade")
+            TaskCard(taskName = "Conseguir Emprego como Android Developer")
         }
     }
 

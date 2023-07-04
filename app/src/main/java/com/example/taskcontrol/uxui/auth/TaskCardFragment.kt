@@ -52,7 +52,7 @@ fun TaskCard(taskName: String) {
         .fillMaxWidth()
         .padding(16.dp),
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ){
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +60,7 @@ fun TaskCard(taskName: String) {
 
             Text(
                 text = taskName,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.background,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier

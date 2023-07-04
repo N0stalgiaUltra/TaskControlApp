@@ -20,7 +20,7 @@ import com.example.taskcontrol.R
 
 @Preview
 @Composable
-private fun ShowSplashFragment(){
+fun ShowSplashFragment(){
 
     Box(
         Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary),

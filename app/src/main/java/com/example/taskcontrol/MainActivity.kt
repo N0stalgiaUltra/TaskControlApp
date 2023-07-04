@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.Navigation
 import com.example.taskcontrol.uxui.auth.LoginFragment
 import com.example.taskcontrol.uxui.auth.LoginScreen
 import com.example.taskcontrol.uxui.auth.MainScreen
@@ -26,9 +27,7 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
-                    //LoginScreen()
-                    //RegisterScreen()
-                    MainScreen()
+                    Navigation()
                 }
 
             }
