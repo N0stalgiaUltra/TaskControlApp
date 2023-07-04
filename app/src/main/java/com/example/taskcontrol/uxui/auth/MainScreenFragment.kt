@@ -38,7 +38,7 @@ import com.example.taskcontrol.ui.theme.TaskControlTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(){
+fun MainScreen(onNavigateToLogin: ()-> Unit){
 
     Scaffold(
         topBar = {
@@ -46,7 +46,7 @@ fun MainScreen(){
                 colors = TopAppBarDefaults.largeTopAppBarColors(MaterialTheme.colorScheme.primary),
                 title = {
                         Row(modifier = Modifier.fillMaxWidth()){
-                            Text(text = "A Fazer",
+                            Text(text = "To do",
                                 color = MaterialTheme.colorScheme.background,
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -55,7 +55,7 @@ fun MainScreen(){
                                         /*TODO*/
                                     }
                             )
-                            Text(text = "Fazendo",
+                            Text(text = "Doing",
                                 color = MaterialTheme.colorScheme.background
                                 ,
                                 modifier = Modifier
@@ -66,7 +66,7 @@ fun MainScreen(){
                                     }
                             )
 
-                            Text(text = "Feitas",
+                            Text(text = "Done",
                                 color = MaterialTheme.colorScheme.background
                                 ,
                                 modifier = Modifier
@@ -77,7 +77,9 @@ fun MainScreen(){
                                     }
                             )
 
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(onClick = { /*TODO: Implementar Logout*/
+                                onNavigateToLogin()
+                            }) {
                                 Icon(
                                     imageVector = Icons.Filled.ExitToApp,
                                     contentDescription = "LogoutIcon",
@@ -122,6 +124,6 @@ fun MainScreen(){
 @Composable
 private fun mainScreenPreview(){
     TaskControlTheme(darkTheme = true) {
-        MainScreen()
+        MainScreen({})
     }
 }

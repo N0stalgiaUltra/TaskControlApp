@@ -18,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun textInputFragment(label: String, placeholder: String) {
+fun textInputFragment(label: String, placeholder: String, isPassword: Boolean) {
     CreateText(
         text = label,
         color = MaterialTheme.colorScheme.primary,
@@ -31,18 +33,38 @@ fun textInputFragment(label: String, placeholder: String) {
     )
     var text by remember { mutableStateOf("") }
 
-    TextField(
-        value = text,
-        onValueChange = {text = it},
-        Modifier.fillMaxWidth(),
-        colors = textFieldColors(
-            textColor = MaterialTheme.colorScheme.background,
-            containerColor = MaterialTheme.colorScheme.primary),
-        placeholder = {
-            Text(text = placeholder, color = MaterialTheme.colorScheme.background)
-        }
+    if(isPassword)
+    {
+        TextField(
+            value = text,
+            onValueChange = {text = it},
+            Modifier.fillMaxWidth(),
+            maxLines = 1,
+            colors = textFieldColors(
+                textColor = MaterialTheme.colorScheme.background,
+                containerColor = MaterialTheme.colorScheme.primary),
+            placeholder = {
+                Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+            },
+            visualTransformation = PasswordVisualTransformation()
+        )
+    }
+    else{
+        TextField(
+            value = text,
+            onValueChange = {text = it},
+            Modifier.fillMaxWidth(),
+            maxLines = 1,
+            colors = textFieldColors(
+                textColor = MaterialTheme.colorScheme.background,
+                containerColor = MaterialTheme.colorScheme.primary),
+            placeholder = {
+                Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+            },
 
-    )
+        )
+    }
+
     Spacer(modifier = Modifier.height(8.dp))
 }
 
