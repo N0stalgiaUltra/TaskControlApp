@@ -20,9 +20,7 @@ class UserViewModel: ViewModel(){
         confirmPassword = confPassword
     }
 
-    fun verifyPassword(): Boolean{
-        return confirmPassword == user.password
-    }
+
 }
 
 data class User(val email: String,

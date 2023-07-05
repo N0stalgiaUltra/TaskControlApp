@@ -105,8 +105,9 @@ private fun createDataTextField(userViewModel: UserViewModel, label: String, pla
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-                visualTransformation = PasswordVisualTransformation()
-        )}
+                visualTransformation = PasswordVisualTransformation())
+
+        }
     }
 }
 

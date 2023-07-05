@@ -10,13 +10,14 @@ import com.example.taskcontrol.uxui.auth.ForgetAccountScreen
 import com.example.taskcontrol.uxui.auth.LoginScreen
 import com.example.taskcontrol.uxui.auth.MainScreen
 import com.example.taskcontrol.uxui.auth.RegisterScreen
+import com.example.taskcontrol.uxui.data.UserValidationViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun Navigation(viewModel: UserViewModel){
     val navController = rememberNavController()
-
+    val userValidationViewModel = UserValidationViewModel()
     NavHost(navController = navController,
         startDestination = Screen.splash_screen.route){
 
@@ -35,7 +36,7 @@ fun Navigation(viewModel: UserViewModel){
             onNavigateToForget = {navController.navigate(Screen.forget_screen.route)}, viewModel)
         }
         composable(route = Screen.register_screen.route){
-            RegisterScreen(viewModel)
+            RegisterScreen(viewModel, userValidationViewModel)
         }
         composable(route = Screen.main_screen.route){
             MainScreen(

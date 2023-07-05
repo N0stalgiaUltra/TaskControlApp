@@ -22,18 +22,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskcontrol.uxui.data.UserValidationViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(viewModel: UserViewModel){
+fun RegisterScreen(viewModel: UserViewModel, userValidationViewModel: UserValidationViewModel){
 
     Scaffold(
         topBar = { TopAppBarrComponent(text = "Register")}
     ) {
         paddingValues -> Modifier.padding(paddingValues)
-        RegisterScreenComponents(viewModel)
+        RegisterScreenComponents(viewModel, userValidationViewModel)
 
     }
 
@@ -42,11 +43,12 @@ fun RegisterScreen(viewModel: UserViewModel){
 @Preview
 @Composable
 fun PreviewRegisterScreen(){
-    RegisterScreen(viewModel = UserViewModel())
+    RegisterScreen(viewModel = UserViewModel(), userValidationViewModel = UserValidationViewModel())
 }
 
 @Composable
-private fun RegisterScreenComponents(viewModel: UserViewModel){
+private fun RegisterScreenComponents(viewModel: UserViewModel,
+                                     userValidationViewModel: UserValidationViewModel){
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -63,12 +65,9 @@ private fun RegisterScreenComponents(viewModel: UserViewModel){
 
             ButtonComponent(onClick = { /*TODO: Passar valores do ViewModel para o Firebase*/ },
                 text = "Create Account")
-            
-            val confirmedPassword = viewModel.verifyPassword()
-            if(!confirmedPassword){
-                Text(text = "Both Passwords Dont Match", color = Color.Red)
+            Column(Modifier.padding(10.dp)) {
+                CheckErrors(viewModel, userValidationViewModel)
             }
-
         }
     }
 }
