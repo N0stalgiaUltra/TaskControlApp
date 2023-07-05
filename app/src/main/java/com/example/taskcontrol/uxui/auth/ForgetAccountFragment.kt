@@ -16,13 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.data.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgetAccountScreen(){
+fun ForgetAccountScreen(viewModel: UserViewModel){
     Scaffold(topBar = { TopAppBarrComponent(text = "Retrieve Account")}) {
         paddingValues -> Modifier.padding(paddingValues)
-        ForgetAccountScreenComponents()
+        ForgetAccountScreenComponents(viewModel)
     }
 }
 
@@ -31,18 +32,18 @@ fun ForgetAccountScreen(){
 @Composable
 private fun PreviewForgetScreen(){
     TaskControlTheme(darkTheme = true) {
-        ForgetAccountScreen()
+        ForgetAccountScreen(viewModel = UserViewModel())
     }
 }
 
 @Composable
-private fun ForgetAccountScreenComponents(){
+private fun ForgetAccountScreenComponents(viewModel: UserViewModel){
     Box(modifier = Modifier
         .fillMaxSize(),
     contentAlignment = Alignment.Center){
         Column(modifier = Modifier.fillMaxWidth().padding(10.dp)) {
-            textInputFragment(label = "Type your email",
-                placeholder = "Type your email", isPassword = false)
+            textInputFragment(label = "Email",
+                placeholder = "Type your email", viewModel)
             Spacer(modifier = Modifier.height(10.dp))
             ButtonComponent(onClick = { /*TODO*/ }, text = "Retrieve Account")
         }

@@ -22,49 +22,91 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.taskcontrol.uxui.data.UserViewModel
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun textInputFragment(label: String, placeholder: String, isPassword: Boolean) {
+fun textInputFragment(label: String, placeholder: String,
+                      userViewModel: UserViewModel) {
     CreateText(
         text = label,
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
     )
-    var text by remember { mutableStateOf("") }
 
-    if(isPassword)
-    {
-        TextField(
-            value = text,
-            onValueChange = {text = it},
-            Modifier.fillMaxWidth(),
-            maxLines = 1,
-            colors = textFieldColors(
-                textColor = MaterialTheme.colorScheme.background,
-                containerColor = MaterialTheme.colorScheme.primary),
-            placeholder = {
-                Text(text = placeholder, color = MaterialTheme.colorScheme.background)
-            },
-            visualTransformation = PasswordVisualTransformation()
-        )
+    when(label){
+        "Username" -> createDataTextField(userViewModel = userViewModel, label = "Username", placeholder = placeholder)
+        "Email" -> createDataTextField(userViewModel = userViewModel, label = "Email", placeholder = placeholder)
+        "Password" -> createDataTextField(userViewModel = userViewModel, label = "Password", placeholder = placeholder)
+        "Confirm Password" -> createDataTextField(userViewModel = userViewModel, label = "Confirm Password", placeholder = placeholder)
+
     }
-    else{
-        TextField(
-            value = text,
-            onValueChange = {text = it},
-            Modifier.fillMaxWidth(),
-            maxLines = 1,
-            colors = textFieldColors(
-                textColor = MaterialTheme.colorScheme.background,
-                containerColor = MaterialTheme.colorScheme.primary),
-            placeholder = {
-                Text(text = placeholder, color = MaterialTheme.colorScheme.background)
-            },
-
-        )
-    }
-
     Spacer(modifier = Modifier.height(8.dp))
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun createDataTextField(userViewModel: UserViewModel, label: String, placeholder: String){
+    val user = userViewModel.user
+
+    when(label){
+        "Username" -> {
+            TextField(
+                value = user.username,
+                onValueChange = {userViewModel.createData(user.copy(username = it))},
+                Modifier.fillMaxWidth(),
+                maxLines = 1,
+                colors = textFieldColors(
+                    textColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.primary),
+                placeholder = {
+                    Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+                },
+            )}
+        "Email" -> {
+            TextField(
+                value = user.email,
+                onValueChange = {userViewModel.createData(user.copy(email = it))},
+                Modifier.fillMaxWidth(),
+                maxLines = 1,
+                colors = textFieldColors(
+                    textColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.primary),
+                placeholder = {
+                    Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+                },
+            )}
+        "Password" ->{
+            TextField(
+                value = user.password,
+                onValueChange = {userViewModel.createData(user.copy(password = it))},
+                Modifier.fillMaxWidth(),
+                maxLines = 1,
+                colors = textFieldColors(
+                    textColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.primary),
+                placeholder = {
+                    Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+                },
+                visualTransformation = PasswordVisualTransformation()
+            )
+        }
+        "Confirm Password" ->{
+
+            TextField(
+                value = userViewModel.confirmPassword,
+                onValueChange = {
+                    userViewModel.confirmPassword(it)
+                },
+                Modifier.fillMaxWidth(),
+                maxLines = 1,
+                colors = textFieldColors(
+                    textColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.primary),
+                placeholder = {
+                    Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+                },
+                visualTransformation = PasswordVisualTransformation()
+        )}
+    }
 }
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "995689937665",
+    "project_id": "taskcontrolapp",
+    "storage_bucket": "taskcontrolapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995689937665:android:9436b17b89be255a9ab900",
+        "android_client_info": {
+          "package_name": "com.example.taskcontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995689937665-ukqp0sm7h4ne3e8lup6vn07kbl7gajb8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.taskcontrol",
+            "certificate_hash": "51197570c0d7652cf7556df993c918e195523c1c"
+          }
+        },
+        {
+          "client_id": "995689937665-urmlnbulfk6d1kt9ld20hjoif32ef6js.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKNp45M7KLfPPVydtPqAWn7iLFZTZEbaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995689937665-urmlnbulfk6d1kt9ld20hjoif32ef6js.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

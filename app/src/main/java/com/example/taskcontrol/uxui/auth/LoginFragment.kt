@@ -38,17 +38,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.data.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(onNavigateToRegister: () -> Unit,
                 onNavigateToMain: ()-> Unit,
-                onNavigateToForget: ()-> Unit
+                onNavigateToForget: ()-> Unit, viewModel: UserViewModel
 ){
     Scaffold(
         topBar = { TopAppBarrComponent(text = "Login") }){
         paddingValues -> Modifier.padding(paddingValues)
-        LoginComponents(onNavigateToRegister, onNavigateToMain, onNavigateToForget)
+        LoginComponents(onNavigateToRegister, onNavigateToMain, onNavigateToForget, viewModel)
     }
 
 
@@ -59,24 +60,24 @@ fun LoginScreen(onNavigateToRegister: () -> Unit,
 
 private fun LoginPreview(){
     TaskControlTheme(true) {
-        LoginScreen({}, {}, {})
+        LoginScreen({}, {}, {}, viewModel= UserViewModel())
     }
 }
 
 @Composable
 private fun LoginComponents(onNavigateToRegister: () -> Unit,
                             onNavigateToMain: ()-> Unit,
-                            onNavigateToForget: ()-> Unit){
+                            onNavigateToForget: ()-> Unit, viewModel: UserViewModel){
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
         contentAlignment = Alignment.Center
     ){
         Column(Modifier.padding(32.dp)) {
-            textInputFragment("Email", "email@email.com", false)
-            textInputFragment("Password", "********", true)
+            textInputFragment("Email", "email@email.com", viewModel)
+            textInputFragment("Password", "********", viewModel)
 
-            ButtonComponent(onClick = { /*TODO: Fazer a validação do Login*/
+            ButtonComponent(onClick = {
                 onNavigateToMain() }, text = "Login")
 
             Spacer(modifier = Modifier.height(10.dp))

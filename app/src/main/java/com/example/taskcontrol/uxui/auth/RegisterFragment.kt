@@ -17,21 +17,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskcontrol.uxui.data.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(viewModel: UserViewModel){
 
     Scaffold(
         topBar = { TopAppBarrComponent(text = "Register")}
     ) {
         paddingValues -> Modifier.padding(paddingValues)
-        RegisterScreenComponents()
+        RegisterScreenComponents(viewModel)
 
     }
 
@@ -40,26 +42,32 @@ fun RegisterScreen(){
 @Preview
 @Composable
 fun PreviewRegisterScreen(){
-    RegisterScreen()
+    RegisterScreen(viewModel = UserViewModel())
 }
 
 @Composable
-private fun RegisterScreenComponents(){
+private fun RegisterScreenComponents(viewModel: UserViewModel){
 
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
         , contentAlignment = Alignment.Center
     ) {
-        Column() {
+        Column {
 
-            textInputFragment(label = "Username", placeholder = "username", false)
-            textInputFragment(label = "Email", placeholder = "email", false)
-            textInputFragment(label = "Password", placeholder = "******", true)
-            textInputFragment(label = "Confirm Password", placeholder = "********", true)
+            textInputFragment(label = "Username", placeholder = "Create Username", viewModel)
+            textInputFragment(label = "Email", placeholder = "Create Email", viewModel)
+            textInputFragment(label = "Password", placeholder = "Create Password", viewModel)
+            textInputFragment(label = "Confirm Password", placeholder = "Confirm Password", viewModel)
             Spacer(modifier = Modifier.height(10.dp))
 
-            ButtonComponent(onClick = { /*TODO*/ }, text = "Create Account")
+            ButtonComponent(onClick = { /*TODO: Passar valores do ViewModel para o Firebase*/ },
+                text = "Create Account")
+            
+            val confirmedPassword = viewModel.verifyPassword()
+            if(!confirmedPassword){
+                Text(text = "Both Passwords Dont Match", color = Color.Red)
+            }
 
         }
     }

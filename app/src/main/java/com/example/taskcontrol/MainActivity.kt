@@ -18,6 +18,7 @@ import com.example.taskcontrol.uxui.auth.LoginFragment
 import com.example.taskcontrol.uxui.auth.LoginScreen
 import com.example.taskcontrol.uxui.auth.MainScreen
 import com.example.taskcontrol.uxui.auth.RegisterScreen
+import com.example.taskcontrol.uxui.data.UserViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
-                    Navigation()
+                    val viewModel = UserViewModel()
+                    Navigation(viewModel)
                 }
 
             }
