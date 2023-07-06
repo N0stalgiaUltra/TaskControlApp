@@ -1,7 +1,7 @@
 # Tasks App
 
-- (PT-BR)
-O Task Control é um app que utiliza do paradigma <a href="https://pt.wikipedia.org/wiki/Kanban" Kanban/> para ajudar o usuário a organizar suas tarefas em um período de tempo. O app está sendo desenvolvido em Kotlin e Jetpack Compose.
+- (PT-BR) <br>
+O Task Control é um app que utiliza do paradigma <a href="https://pt.wikipedia.org/wiki/Kanban"> Kanban</a> para ajudar o usuário a organizar suas tarefas em um período de tempo. O app está sendo desenvolvido em Kotlin e Jetpack Compose.
 Este é um projeto criado para apenas para fins de aprendizado.  
 
 - (EN) 
@@ -11,7 +11,7 @@ Este é um projeto criado para apenas para fins de aprendizado.
 
 ### Autenticação com Firebase Auth em View Models
 
-O aplicativo conta com um sistema de registro e login de usuários, utilizando o <a href="https://firebase.google.com/docs/auth?hl=pt-br" Firebase Authentication/>. Para os usuários que estão interessandos em entender como funciona, basta verificar os arquivos <a href= "" Auth Repository> e <a href= "" LoginViewModel> para entender um pouco mais sobre a implementação. Além disso, o Firebase Auth conta com algumas regras de seguranças junto de seu pacote, ajudando na verificação de erros no cadastro e login.
+O aplicativo conta com um sistema de registro e login de usuários, utilizando o <a href="https://firebase.google.com/docs/auth?hl=pt-br" Firebase Authentication/>. Para os usuários que estão interessandos em entender como funciona, basta verificar os arquivos <a href= "" Auth Repository/> e <a href= "" LoginViewModel/> para entender um pouco mais sobre a implementação. Além disso, o Firebase Auth conta com algumas regras de seguranças junto de seu pacote, ajudando na verificação de erros no cadastro e login.
 
 ### Utilização de CRUD para os cards das tarefas
 
