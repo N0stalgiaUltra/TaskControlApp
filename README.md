@@ -11,7 +11,7 @@ Este é um projeto criado para apenas para fins de aprendizado.
 
 ### Autenticação com Firebase Auth em View Models
 
-O aplicativo conta com um sistema de registro e login de usuários, utilizando o <a href="https://firebase.google.com/docs/auth?hl=pt-br" Firebase Authentication/>. Para os usuários que estão interessandos em entender como funciona, basta verificar os arquivos <a href= "" Auth Repository/> e <a href= "" LoginViewModel/> para entender um pouco mais sobre a implementação. Além disso, o Firebase Auth conta com algumas regras de seguranças junto de seu pacote, ajudando na verificação de erros no cadastro e login.
+O aplicativo conta com um sistema de registro e login de usuários, utilizando o <a href="https://firebase.google.com/docs/auth?hl=pt-br">Firebase Authentication</a>. Para os usuários que estão interessandos em entender como funciona, basta verificar os arquivos <a href= ""> Auth Repository</a> e <a href= "" >LoginViewModel</a> para entender um pouco mais sobre a implementação. Além disso, o Firebase Auth conta com algumas regras de seguranças junto de seu pacote, ajudando na verificação de erros no cadastro e login.
 
 ### Utilização de CRUD para os cards das tarefas
 
