@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 
 class UserViewModel: ViewModel(){
 
-    var user by mutableStateOf(User("", "", ""))
+    var user by mutableStateOf(User("", "", "", ""))
         private set
     var confirmPassword by mutableStateOf("")
         private set
@@ -23,6 +23,9 @@ class UserViewModel: ViewModel(){
 
 }
 
-data class User(val email: String,
-                val password: String,
-                val username: String)
+data class User(
+    val email: String,
+    val password: String,
+    val username: String,
+    val confirmPassword: String
+)

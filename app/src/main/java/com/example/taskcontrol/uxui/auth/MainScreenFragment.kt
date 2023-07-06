@@ -1,45 +1,37 @@
 package com.example.taskcontrol.uxui.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material3.Button
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.auth.components.TaskCard
+import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onNavigateToLogin: ()-> Unit){
-
+fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,7 +69,8 @@ fun MainScreen(onNavigateToLogin: ()-> Unit){
                                     }
                             )
 
-                            IconButton(onClick = { /*TODO: Implementar Logout*/
+                            IconButton(onClick = {
+                                viewModel.logoutUser(context)
                                 onNavigateToLogin()
                             }) {
                                 Icon(
@@ -124,6 +117,6 @@ fun MainScreen(onNavigateToLogin: ()-> Unit){
 @Composable
 private fun mainScreenPreview(){
     TaskControlTheme(darkTheme = true) {
-        MainScreen({})
+        //MainScreen({})
     }
 }

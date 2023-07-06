@@ -2,20 +2,20 @@ package com.example.taskcontrol.uxui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskcontrol.uxui.auth.ForgetAccountScreen
-import com.example.taskcontrol.uxui.auth.LoginScreen
+import com.example.taskcontrol.uxui.auth.login.LoginScreen
 import com.example.taskcontrol.uxui.auth.MainScreen
-import com.example.taskcontrol.uxui.auth.RegisterScreen
+import com.example.taskcontrol.uxui.auth.login.LoginViewModel
+import com.example.taskcontrol.uxui.auth.register.RegisterScreen
 import com.example.taskcontrol.uxui.data.UserValidationViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun Navigation(viewModel: UserViewModel){
+fun Navigation(viewModel: UserViewModel, loginViewModel: LoginViewModel){
     val navController = rememberNavController()
     val userValidationViewModel = UserValidationViewModel()
     NavHost(navController = navController,
@@ -33,14 +33,20 @@ fun Navigation(viewModel: UserViewModel){
             LoginScreen(onNavigateToRegister = {
                 navController.navigate(Screen.register_screen.route)},
             onNavigateToMain = {navController.navigate(Screen.main_screen.route)},
-            onNavigateToForget = {navController.navigate(Screen.forget_screen.route)}, viewModel)
+            onNavigateToForget = {navController.navigate(Screen.forget_screen.route)},
+                loginViewModel)
         }
         composable(route = Screen.register_screen.route){
-            RegisterScreen(viewModel, userValidationViewModel)
+            //RegisterScreen(viewModel, userValidationViewModel) antigo
+            RegisterScreen(loginViewModel = loginViewModel,
+                onNavigateToLogin = {
+                    navController.navigate(Screen.login_screen.route)
+                })//novo
         }
         composable(route = Screen.main_screen.route){
             MainScreen(
-                onNavigateToLogin = {navController.navigate(Screen.login_screen.route)}
+                onNavigateToLogin = {navController.navigate(Screen.login_screen.route)},
+                loginViewModel
             )
         }
         composable(route = Screen.forget_screen.route){

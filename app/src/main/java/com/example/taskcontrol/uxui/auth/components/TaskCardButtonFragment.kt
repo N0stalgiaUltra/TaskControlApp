@@ -1,4 +1,4 @@
-package com.example.taskcontrol.uxui.auth
+package com.example.taskcontrol.uxui.auth.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding

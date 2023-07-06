@@ -12,10 +12,16 @@ import com.example.taskcontrol.uxui.data.UserValidationViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 
 @Composable
-fun CheckErrors(userViewModel: UserViewModel, userError: UserValidationViewModel){
+fun CheckErrors(userViewModel: UserViewModel, userError: UserValidationViewModel): Boolean{
     TextError(text = userError.verifyEmail(userViewModel.user.email))
     TextError(text = userError.verifyPassword(userViewModel.user.password))
     TextError(text = userError.verifyConfirmPassword(userViewModel.user.password, userViewModel.confirmPassword))
+
+    return(userError.verifyEmail(userViewModel.user.email).isEmpty() &&
+        userError.verifyPassword(userViewModel.user.password).isEmpty() &&
+        userError.verifyConfirmPassword(userViewModel.user.password,
+            userViewModel.confirmPassword).isEmpty())
+
 }
 
 
