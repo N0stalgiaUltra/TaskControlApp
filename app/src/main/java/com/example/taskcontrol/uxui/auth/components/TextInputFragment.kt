@@ -18,12 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
+import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 
 @Composable
-fun textInputFragment(label: String, placeholder: String,
-                      loginViewModel: LoginViewModel ?= null) {
+fun <T>textInputFragment(label: String, placeholder: String,
+                      userViewModel: T? = null) where T: ViewModel{
 
     CreateText(
         text = label.drop(2),
@@ -32,25 +34,28 @@ fun textInputFragment(label: String, placeholder: String,
     )
 
     when(label){
-        "R_Username" -> createRegisterTextField(viewModel = loginViewModel, label = "Username", placeholder = placeholder)
-        "R_Email" -> createRegisterTextField(viewModel = loginViewModel, label = "Email", placeholder = placeholder)
-        "R_Password" -> createRegisterTextField(viewModel = loginViewModel, label = "Password", placeholder = placeholder)
-        "R_Confirm Password" -> createRegisterTextField(viewModel = loginViewModel, label = "Confirm Password", placeholder = placeholder)
-        "L_Email" -> createLoginTextField(viewModel = loginViewModel, label = "Email", placeholder = placeholder)
-        "L_Password" -> createLoginTextField(viewModel = loginViewModel, label = "Password", placeholder = placeholder)
+        "R_Username" -> createRegisterTextField(viewModel = userViewModel as? RegisterViewModel, label = "Username", placeholder = placeholder)
+        "R_Email" -> createRegisterTextField(viewModel = userViewModel as? RegisterViewModel, label = "Email", placeholder = placeholder)
+        "R_Password" -> createRegisterTextField(viewModel = userViewModel as? RegisterViewModel, label = "Password", placeholder = placeholder)
+        "R_Confirm Password" -> createRegisterTextField(viewModel = userViewModel as? RegisterViewModel, label = "Confirm Password", placeholder = placeholder)
+        "L_Email" -> createLoginTextField(viewModel = userViewModel as? LoginViewModel, label = "Email", placeholder = placeholder)
+        "L_Password" -> createLoginTextField(viewModel = userViewModel as? LoginViewModel, label = "Password", placeholder = placeholder)
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun createRegisterTextField(viewModel: LoginViewModel?= null, label: String, placeholder: String){
+private fun createRegisterTextField(viewModel: RegisterViewModel?= null, label: String, placeholder: String){
 
     when(label){
         "Username" -> {
             OutlinedTextField(
-                value = viewModel?.loginUiState?.usernameSignUp ?: "",
-                onValueChange = {viewModel?.onUsernameSignupChange(username = it)},
+                value = viewModel?.registerUiState?.usernameSignUp ?: "",
+                onValueChange = {
+                                    viewModel?.onUsernameSignupChange(username = it)
+                                    print(viewModel?.registerUiState?.usernameSignUp ?: "nada ainda")
+                                },
                 Modifier.fillMaxWidth(),
                 maxLines = 1,
                 colors = textFieldColors(
@@ -64,7 +69,7 @@ private fun createRegisterTextField(viewModel: LoginViewModel?= null, label: Str
 
         "Email" -> {
             OutlinedTextField(
-                value = viewModel?.loginUiState?.emailSignUp ?: "",
+                value = viewModel?.registerUiState?.emailSignUp ?: "",
                 onValueChange = {viewModel?.onEmailSignupChange(email = it)},
                 Modifier.fillMaxWidth(),
                 maxLines = 1,
@@ -77,7 +82,7 @@ private fun createRegisterTextField(viewModel: LoginViewModel?= null, label: Str
             )}
         "Password" ->{
             OutlinedTextField(
-                value = viewModel?.loginUiState?.passwordSignUp ?: "",
+                value = viewModel?.registerUiState?.passwordSignUp ?: "",
                 onValueChange = {viewModel?.onPasswordSignupChange(password = it)},
                 Modifier.fillMaxWidth(),
                 maxLines = 1,
@@ -93,7 +98,7 @@ private fun createRegisterTextField(viewModel: LoginViewModel?= null, label: Str
         "Confirm Password" ->{
 
             OutlinedTextField(
-                value = viewModel?.loginUiState?.confirmPasswordSignUp ?: "" ,
+                value = viewModel?.registerUiState?.confirmPasswordSignUp ?: "" ,
                 onValueChange = {
                     viewModel?.onConfirmPasswordSignupChange(confirmPassword = it)
                 },
@@ -113,7 +118,6 @@ private fun createRegisterTextField(viewModel: LoginViewModel?= null, label: Str
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun createLoginTextField(viewModel: LoginViewModel?= null, label: String, placeholder: String){
-
     when(label){
         "Email" -> {
             OutlinedTextField(

@@ -10,14 +10,14 @@ import com.example.taskcontrol.uxui.auth.login.LoginScreen
 import com.example.taskcontrol.uxui.auth.MainScreen
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.auth.register.RegisterScreen
+import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
 import com.example.taskcontrol.uxui.data.UserValidationViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun Navigation(viewModel: UserViewModel, loginViewModel: LoginViewModel){
+fun Navigation(viewModel: UserViewModel, loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel){
     val navController = rememberNavController()
-    val userValidationViewModel = UserValidationViewModel()
     NavHost(navController = navController,
         startDestination = Screen.splash_screen.route){
 
@@ -38,7 +38,7 @@ fun Navigation(viewModel: UserViewModel, loginViewModel: LoginViewModel){
         }
         composable(route = Screen.register_screen.route){
             //RegisterScreen(viewModel, userValidationViewModel) antigo
-            RegisterScreen(loginViewModel = loginViewModel,
+            RegisterScreen(registerViewModel = registerViewModel,
                 onNavigateToLogin = {
                     navController.navigate(Screen.login_screen.route)
                 })//novo

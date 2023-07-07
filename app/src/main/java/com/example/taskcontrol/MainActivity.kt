@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.Navigation
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
+import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
 import com.example.taskcontrol.uxui.data.UserViewModel
 
 class MainActivity : ComponentActivity() {
@@ -19,14 +20,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            //entender esta linha.
+            //instancia do loginViewModel
             val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
+            val registerViewModel = viewModel(modelClass = RegisterViewModel::class.java)
             TaskControlTheme(darkTheme = true) {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
                     val viewModel = UserViewModel()
-                    Navigation(viewModel, loginViewModel)
+                    Navigation(viewModel, loginViewModel, registerViewModel)
                 }
 
             }
