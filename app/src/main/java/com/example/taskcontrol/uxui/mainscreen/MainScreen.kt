@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
@@ -45,6 +47,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.taskcontrol.R
 import com.example.taskcontrol.pagerTab.pagerTabIndicatorOffset
+import com.example.taskcontrol.uxui.data.CardsState
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -58,7 +62,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     val context = LocalContext.current
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("To do", "Doing", "Done")
-
+    val stateUi = viewModel?.loginUiState
     val pagerState = rememberPagerState()
 
     Scaffold(
@@ -117,7 +121,12 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
                 count = tabs.size,
                 state = pagerState) {
                 selectedTab ->
-                    Text(text = "You are in the Tab $selectedTab")
+                    if(selectedTab == 0) {
+                        TodoScreen()
+                    }
+                    else{
+                        Text(text = "You are in the Tab $selectedTab, mr ${stateUi?.username}")
+                    }
                 }
             }
             /*
@@ -145,47 +154,34 @@ private fun mainScreenPreview(){
         MainScreen({}, viewModel = LoginViewModel())
     }
 }
-/* Função para guardar codigo
-fun teste(){
-            TopAppBar(
-                colors = TopAppBarDefaults.largeTopAppBarColors(MaterialTheme.colorScheme.primary),
-                title = {
-                    Row(modifier = Modifier.fillMaxWidth()) {
 
 
-                        IconButton(onClick = {
-                            viewModel.logoutUser(context)
-                            onNavigateToLogin()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.ExitToApp,
-                                contentDescription = "LogoutIcon",
-                                tint = MaterialTheme.colorScheme.background,
-                                modifier = Modifier.padding(top = 16.dp, start = 10.dp)
-                            )
-                        }
-                    }
+@Composable
+fun TodoScreen(){
+    val viewModel = UserCardsViewModel()
+    val dummiesCardList = DummyCardList()
 
+    dummiesCardList.forEach {
+        viewModel.addCard(it)
+    }
 
-                },
+    LazyColumn(modifier = Modifier.padding(16.dp)) {
 
-                )
+        items(viewModel.todoCards){
+            card -> TaskCard(taskName = card.title)
 
-                NavigationBar(containerColor = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth()) {
+        }
 
-                NavigationBarItem(
-                    selected = selectedTab.equals(0),
-                    icon = {
-                        Icon(painter = painterResource(id = R.drawable.baseline_todo),
-                            contentDescription = "Todo Icon",
-                            tint = MaterialTheme.colorScheme.background)
-                    },
-                    label = {
-                        Text(text = "To Do",
-                        color = MaterialTheme.colorScheme.background)},
-                    onClick = { selectedTab.value = 0},
-                    modifier = Modifier
-                        .padding(16.dp))
+    }
+}
 
-}*/
+private fun DummyCardList(): List<CardsState>{
+    return listOf(
+        CardsState("Testando os Cards", 1, "", "todo"),
+        CardsState("Cards no TODO", 2, "", "todo"),
+        CardsState("Card no Doing", 3, "", "doing"),
+        CardsState("Outro Tipo", 4, "", "doing"),
+        CardsState("Outro Tipo de card", 5, "", "doing")
+    )
+
+}

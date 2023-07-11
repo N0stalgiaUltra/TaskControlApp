@@ -96,7 +96,6 @@ class LoginViewModel(
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
-    val confirmPassword: String = "",
     val username: String = "",
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,

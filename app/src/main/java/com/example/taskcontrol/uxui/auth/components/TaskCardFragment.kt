@@ -59,15 +59,14 @@ fun TaskCard(taskName: String) {
 
                 CreateButton(text = "Remove", color = Color.Red)
                 CreateButton(text = "Edit", color = Color.Yellow)
-                CreateButton(text = "Details", color = Color.White)
 
-                    IconButton(
-                        modifier = Modifier
-                            .padding(5.dp),
-                        onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Filled.ArrowForward,
-                            contentDescription = "Arrow Icon")
-                }
+                IconButton(
+                    modifier = Modifier
+                        .padding(5.dp),
+                    onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.ArrowForward,
+                        contentDescription = "Arrow Icon")
+                    }
             }
 
         }
