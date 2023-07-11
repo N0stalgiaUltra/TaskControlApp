@@ -18,11 +18,11 @@ import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.components.ButtonComponent
 import com.example.taskcontrol.uxui.auth.components.TopAppBarrComponent
 import com.example.taskcontrol.uxui.auth.components.textInputFragment
-import com.example.taskcontrol.uxui.data.UserViewModel
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgetAccountScreen(viewModel: UserViewModel){
+fun ForgetAccountScreen(viewModel: UserCardsViewModel){
     Scaffold(topBar = { TopAppBarrComponent(text = "Retrieve Account") }) {
         paddingValues -> Modifier.padding(paddingValues)
         ForgetAccountScreenComponents(viewModel)
@@ -34,12 +34,12 @@ fun ForgetAccountScreen(viewModel: UserViewModel){
 @Composable
 private fun PreviewForgetScreen(){
     TaskControlTheme(darkTheme = true) {
-        ForgetAccountScreen(viewModel = UserViewModel())
+        ForgetAccountScreen(viewModel = UserCardsViewModel())
     }
 }
 
 @Composable
-private fun ForgetAccountScreenComponents(viewModel: UserViewModel){
+private fun ForgetAccountScreenComponents(viewModel: UserCardsViewModel){
     Box(modifier = Modifier
         .fillMaxSize(),
     contentAlignment = Alignment.Center){

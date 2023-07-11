@@ -13,7 +13,7 @@ import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.Navigation
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
-import com.example.taskcontrol.uxui.data.UserViewModel
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
-                    val viewModel = UserViewModel()
+                    val viewModel = UserCardsViewModel()
                     Navigation(viewModel, loginViewModel, registerViewModel)
                 }
 

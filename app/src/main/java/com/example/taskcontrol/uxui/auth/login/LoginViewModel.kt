@@ -25,9 +25,6 @@ class LoginViewModel(
     var loginUiState by mutableStateOf(LoginUiState())
         private set
 
-    fun onUsernameChange(username: String){
-        loginUiState = loginUiState.copy(username = username)
-    }
 
     fun onEmailChange(email: String){
         loginUiState = loginUiState.copy(email = email)
@@ -38,14 +35,25 @@ class LoginViewModel(
     }
 
     /*TODO: Determinar as regras de negócios para as validações*/
-    private fun validateLoginForm() =
-        loginUiState.email.isNotBlank() && loginUiState.password.isNotBlank()
+    private fun validateLoginForm(): String {
+        var message = ""
+
+        if(loginUiState.email.isBlank())
+            message += "The email field is empty"
+
+        if(loginUiState.password.isBlank())
+            message += "\n The password field is empty"
+
+        return message
+
+    }
+
 
 
     fun loginUser(context: Context) = viewModelScope.launch{
             try {
-                if(!validateLoginForm())
-                    throw IllegalArgumentException("One of provided data are empty")
+                if(validateLoginForm() != "")
+                    throw IllegalArgumentException(validateLoginForm())
 
                 loginUiState = loginUiState.copy(isLoading = true)
                 loginUiState = loginUiState.copy(loginError = null)

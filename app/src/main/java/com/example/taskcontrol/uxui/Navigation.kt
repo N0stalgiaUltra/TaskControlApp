@@ -7,16 +7,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskcontrol.uxui.auth.ForgetAccountScreen
 import com.example.taskcontrol.uxui.auth.login.LoginScreen
-import com.example.taskcontrol.uxui.auth.MainScreen
+import com.example.taskcontrol.uxui.mainscreen.MainScreen
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.auth.register.RegisterScreen
 import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
-import com.example.taskcontrol.uxui.data.UserValidationViewModel
-import com.example.taskcontrol.uxui.data.UserViewModel
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun Navigation(viewModel: UserViewModel, loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel){
+fun Navigation(viewModel: UserCardsViewModel, loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel){
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = Screen.splash_screen.route){

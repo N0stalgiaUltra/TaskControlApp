@@ -6,11 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.taskcontrol.uxui.Screen
 import com.example.taskcontrol.uxui.auth.components.TopAppBarrComponent
-import com.example.taskcontrol.uxui.auth.login.LoginViewModel
-import com.example.taskcontrol.uxui.data.UserValidationViewModel
-import com.example.taskcontrol.uxui.data.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

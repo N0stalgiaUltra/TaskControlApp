@@ -20,9 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.uxui.auth.components.ButtonComponent
 import com.example.taskcontrol.uxui.auth.components.textInputFragment
-import com.example.taskcontrol.uxui.data.UserListViewModel
-import com.example.taskcontrol.uxui.data.UserViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun LoginComponents(onNavigateToRegister: () -> Unit,
