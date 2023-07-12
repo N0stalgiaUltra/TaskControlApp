@@ -1,5 +1,6 @@
 package com.example.taskcontrol.uxui.mainscreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -46,16 +48,17 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     val context = LocalContext.current
-    var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("To do", "Doing", "Done")
     val stateUi = viewModel?.loginUiState
     val pagerState = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
     val cardsViewModel = remember{ UserCardsViewModel()}
     var openDialog by remember { mutableStateOf(false) }
 
@@ -64,7 +67,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     Scaffold(
         topBar = {
 
-            TabRow(selectedTabIndex = selectedTab,
+            TabRow(selectedTabIndex = pagerState.currentPage,
                 modifier = Modifier.padding(bottom = 16.dp),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background,
@@ -82,8 +85,12 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
                 tabs = {
                     tabs.forEachIndexed{
                         index, title -> Tab(
-                            selected = selectedTab == index,
-                            onClick = {selectedTab = index},
+                            selected = pagerState.currentPage == index,
+                            onClick = {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            },
                             text = {
                                 Text(text = title,
                                     maxLines = 1,
@@ -92,7 +99,11 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
                         )
                     }
 
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                            viewModel.logoutUser(context)
+                            if(!viewModel.hasUser)
+                                onNavigateToLogin()
+                    }) {
                         Icon(painter = painterResource(id = R.drawable.baseline_logout_24),
                             contentDescription = "logout button")
                     }
@@ -119,14 +130,16 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
             HorizontalPager(
                 count = tabs.size,
                 state = pagerState) {
-                selectedTab ->
-
-                when(selectedTab){
-                    0 -> {
-                        TodoScreen(cardsViewModel)}
-                    1 -> {
-                        DoingScreen(cardsViewModel)}
-                }
+                    selectedTab ->
+                    when(selectedTab){
+                        0 -> {
+                            TodoScreen(cardsViewModel)}
+                        1 -> {
+                            DoingScreen(cardsViewModel)}
+                        2 -> {
+                            DoneScreen(cardsViewModel)
+                        }
+                    }
 
                 }
             }
@@ -165,7 +178,7 @@ fun TodoScreen(viewModel:UserCardsViewModel){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
         items(viewModel.todoCards){
-            card -> TaskCard(taskName = card.title, id = card?.id, viewModel, "todo")
+            card -> TaskCard(taskName = card.title, id = card.id, viewModel, "todo")
         }
 
     }
@@ -178,7 +191,18 @@ fun DoingScreen(viewModel:UserCardsViewModel){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
         items(viewModel.doingCards){
-                card -> TaskCard(taskName = card.title, id = card?.id, viewModel, "doing")
+                card -> TaskCard(taskName = card.title, id = card.id, viewModel, "doing")
+        }
+
+    }
+}
+
+@Composable
+fun DoneScreen(viewModel: UserCardsViewModel){
+    LazyColumn(modifier = Modifier.padding(16.dp)) {
+
+        items(viewModel.doingCards){
+                card -> TaskCard(taskName = card.title, id = card.id, viewModel, "done")
         }
 
     }

@@ -32,7 +32,7 @@ fun CreateCardAlert(viewModel: UserCardsViewModel, onDismiss: ()-> Unit){
             ButtonComponent(onClick = {
                 val newCard = CardsState(
                     title = title,
-                    id = null,
+                    id = "",
                     state = "todo"
                 )
 

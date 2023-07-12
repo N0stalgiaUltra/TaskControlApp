@@ -34,7 +34,7 @@ private fun PreviewTaskCard(){
 }
 
 @Composable
-fun TaskCard(taskName: String, id: Int?, viewModel: UserCardsViewModel, state : String) {
+fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state : String) {
 
     val card_id = id
 

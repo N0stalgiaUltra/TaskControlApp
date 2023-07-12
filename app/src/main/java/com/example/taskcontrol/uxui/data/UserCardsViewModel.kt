@@ -20,15 +20,22 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
 
 
     //Metodos OnChange
+    // /*TODO: Adicionar possibilidade de edição de cards*/
 
-    fun onChangeTitle(title: String, id: Int?) {
+    fun onChangeTitle(title: String, id: String) {
         val card = repository.getCard(id)
         card?.copy(title = title)
     }
 
-    fun onChangeState(state: String, id: Int?){
+    fun onChangeState(state: String, id: String){
         val card = repository.getCard(id)
-        card?.copy(state = state)
+        val updatedCard = card?.copy(state = state)
+
+        if(updatedCard != null)
+        {
+            repository.updateCard(updatedCard)
+            updateCards()
+        }
     }
 
     //Metodos Crud
@@ -58,7 +65,4 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
 
     }
 
-    fun getCardsCount(): Int{
-        return repository.getAllCards().size
-    }
 }
