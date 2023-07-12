@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.taskcontrol.R
 import com.example.taskcontrol.pagerTab.pagerTabIndicatorOffset
+import com.example.taskcontrol.uxui.auth.components.CreateCardAlert
 import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -64,6 +65,10 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     val tabs = listOf("To do", "Doing", "Done")
     val stateUi = viewModel?.loginUiState
     val pagerState = rememberPagerState()
+    val cardsViewModel = UserCardsViewModel()
+    var openDialog by remember { mutableStateOf(false) }
+
+
 
     Scaffold(
         topBar = {
@@ -87,7 +92,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
                     tabs.forEachIndexed{
                         index, title -> Tab(
                             selected = selectedTab == index,
-                            onClick = {/*TODO*/ selectedTab = index},
+                            onClick = {selectedTab = index},
                             text = {
                                 Text(text = title,
                                     maxLines = 1,
@@ -106,7 +111,10 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.primary,
-                onClick = { /*TODO: Adicionar Cards*/ }) {
+                onClick = {
+                    openDialog = true
+                }
+                ) {
                 FabPosition.End
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "FAB icon")
             }
@@ -115,18 +123,24 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     {
         //isso é feito no content para evitar problemas de layout
         paddingValues -> Column(modifier = Modifier.padding(paddingValues)) {
+            if(openDialog){
+                CreateCardAlert(viewModel = cardsViewModel){
+                    openDialog = false
+                }
+            }
 
-            
             HorizontalPager(
                 count = tabs.size,
                 state = pagerState) {
                 selectedTab ->
-                    if(selectedTab == 0) {
-                        TodoScreen()
-                    }
-                    else{
-                        Text(text = "You are in the Tab $selectedTab, mr ${stateUi?.username}")
-                    }
+
+                when(selectedTab){
+                    0 -> {
+                        TodoScreen()}
+                    1 -> {
+                        DoingScreen()}
+                }
+
                 }
             }
             /*
@@ -168,8 +182,25 @@ fun TodoScreen(){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
         items(viewModel.todoCards){
-            card -> TaskCard(taskName = card.title)
+            card -> TaskCard(taskName = card.title, id = card?.id, viewModel, "todo")
+        }
 
+    }
+}
+
+@Composable
+fun DoingScreen(){
+    val viewModel = UserCardsViewModel()
+    val dummiesCardList = DummyCardList()
+
+    dummiesCardList.forEach {
+        viewModel.addCard(it)
+    }
+
+    LazyColumn(modifier = Modifier.padding(16.dp)) {
+
+        items(viewModel.doingCards){
+                card -> TaskCard(taskName = card.title, id = card?.id, viewModel, "doing")
         }
 
     }
@@ -185,3 +216,4 @@ private fun DummyCardList(): List<CardsState>{
     )
 
 }
+

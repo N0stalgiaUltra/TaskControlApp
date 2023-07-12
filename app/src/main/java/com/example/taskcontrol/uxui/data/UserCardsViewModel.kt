@@ -20,6 +20,7 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
 
 
     //Metodos OnChange
+
     fun onChangeTitle(title: String, id: Int?) {
         val card = repository.getCard(id)
         card?.copy(title = title)

@@ -13,8 +13,11 @@ class UserCardRepository {
 
     /*TODO: Remover possibilidades de duplicatas com ID*/
     fun addCard(card: CardsState) {
-        card.copy(id = GetRandomId())
-        _cards.add(card)
+        if(card.id == null){
+            card.copy(id = GetRandomId())
+            _cards.add(card)
+        }
+
     }
 
     fun removeCard(id: Int?) {

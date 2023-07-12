@@ -20,22 +20,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @Preview
 @Composable
 private fun PreviewTaskCard(){
     TaskControlTheme(true) {
         Column() {
-            TaskCard("Teste de Card")
-            TaskCard("Teste de Card")
-            TaskCard("Teste de Card")
+
         }
 
     }
 }
 
 @Composable
-fun TaskCard(taskName: String) {
+fun TaskCard(taskName: String, id: Int?, viewModel: UserCardsViewModel, state : String) {
+
+    val card_id = id
+
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -52,7 +54,8 @@ fun TaskCard(taskName: String) {
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .fillMaxWidth().padding(5.dp, 15.dp)
+                    .fillMaxWidth()
+                    .padding(5.dp, 15.dp)
             )
 
             Row(modifier = Modifier.fillMaxWidth()){
@@ -63,7 +66,14 @@ fun TaskCard(taskName: String) {
                 IconButton(
                     modifier = Modifier
                         .padding(5.dp),
-                    onClick = { /*TODO*/ }) {
+                    onClick = {
+                        when(state.lowercase()){
+
+                            "todo" -> { viewModel.onChangeState("doing", card_id) }
+                            "doing" -> { viewModel.onChangeState("done", card_id) }
+                        }
+
+                    }) {
                     Icon(imageVector = Icons.Filled.ArrowForward,
                         contentDescription = "Arrow Icon")
                     }
@@ -74,3 +84,7 @@ fun TaskCard(taskName: String) {
 
 
 }
+// Em qual aba estamos?
+// para qual aba posso ir?
+
+
