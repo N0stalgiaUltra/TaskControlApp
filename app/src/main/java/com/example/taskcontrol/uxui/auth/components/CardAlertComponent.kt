@@ -1,5 +1,6 @@
 package com.example.taskcontrol.uxui.auth.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -13,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
@@ -21,7 +23,7 @@ import com.example.taskcontrol.uxui.data.UserCardsViewModel
 @Composable
 fun CreateCardAlert(viewModel: UserCardsViewModel, onDismiss: ()-> Unit){
     var title by remember { mutableStateOf("") }
-
+    val context = LocalContext.current
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
@@ -30,10 +32,12 @@ fun CreateCardAlert(viewModel: UserCardsViewModel, onDismiss: ()-> Unit){
             ButtonComponent(onClick = {
                 val newCard = CardsState(
                     title = title,
+                    id = null,
                     state = "todo"
                 )
 
                 viewModel.addCard(newCard)
+                onDismiss()
             }, text = "Adicionar Card")
         },
 

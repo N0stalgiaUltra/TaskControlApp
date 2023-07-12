@@ -1,39 +1,32 @@
 package com.example.taskcontrol.uxui.mainscreen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material3.BottomAppBar
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,9 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.components.TaskCard
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
-import org.w3c.dom.Text
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextDecoration
+
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.taskcontrol.R
 import com.example.taskcontrol.pagerTab.pagerTabIndicatorOffset
@@ -65,7 +56,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     val tabs = listOf("To do", "Doing", "Done")
     val stateUi = viewModel?.loginUiState
     val pagerState = rememberPagerState()
-    val cardsViewModel = UserCardsViewModel()
+    val cardsViewModel = remember{ UserCardsViewModel()}
     var openDialog by remember { mutableStateOf(false) }
 
 
@@ -123,11 +114,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
     {
         //isso é feito no content para evitar problemas de layout
         paddingValues -> Column(modifier = Modifier.padding(paddingValues)) {
-            if(openDialog){
-                CreateCardAlert(viewModel = cardsViewModel){
-                    openDialog = false
-                }
-            }
+
 
             HorizontalPager(
                 count = tabs.size,
@@ -136,17 +123,20 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
 
                 when(selectedTab){
                     0 -> {
-                        TodoScreen()}
+                        TodoScreen(cardsViewModel)}
                     1 -> {
-                        DoingScreen()}
+                        DoingScreen(cardsViewModel)}
                 }
 
                 }
             }
-            /*
-            TaskCard(taskName = "Compor samba para o Salgueiro")
-            TaskCard(taskName = "Terminar faculdade")
-            TaskCard(taskName = "Conseguir Emprego como Android Developer")*/
+
+            if(openDialog){
+                CreateCardAlert(viewModel = cardsViewModel){
+                    openDialog = false
+                }
+            }
+
         }
     }
 
@@ -171,14 +161,7 @@ private fun mainScreenPreview(){
 
 
 @Composable
-fun TodoScreen(){
-    val viewModel = UserCardsViewModel()
-    val dummiesCardList = DummyCardList()
-
-    dummiesCardList.forEach {
-        viewModel.addCard(it)
-    }
-
+fun TodoScreen(viewModel:UserCardsViewModel){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
         items(viewModel.todoCards){
@@ -189,13 +172,8 @@ fun TodoScreen(){
 }
 
 @Composable
-fun DoingScreen(){
-    val viewModel = UserCardsViewModel()
-    val dummiesCardList = DummyCardList()
+fun DoingScreen(viewModel:UserCardsViewModel){
 
-    dummiesCardList.forEach {
-        viewModel.addCard(it)
-    }
 
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
@@ -206,6 +184,7 @@ fun DoingScreen(){
     }
 }
 
+/*
 private fun DummyCardList(): List<CardsState>{
     return listOf(
         CardsState("Testando os Cards", 1, "", "todo"),
@@ -215,5 +194,5 @@ private fun DummyCardList(): List<CardsState>{
         CardsState("Outro Tipo de card", 5, "", "doing")
     )
 
-}
+}*/
 

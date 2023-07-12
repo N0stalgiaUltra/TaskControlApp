@@ -57,4 +57,8 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
         doneCards = allCards.filter { it.state.lowercase() == "done" }
 
     }
+
+    fun getCardsCount(): Int{
+        return repository.getAllCards().size
+    }
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ButtonComponent(onClick: ()-> Unit, text: String){
     Button(
-        onClick = { /*TODO*/ onClick() },
+        onClick = { onClick() },
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .padding(top = 16.dp)
