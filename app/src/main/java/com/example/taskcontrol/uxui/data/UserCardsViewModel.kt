@@ -65,4 +65,7 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
 
     }
 
+    fun getCardsSize(): Int{
+        return repository.getAllCards().size
+    }
 }

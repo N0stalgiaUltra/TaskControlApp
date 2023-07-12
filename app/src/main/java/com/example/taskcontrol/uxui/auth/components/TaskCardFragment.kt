@@ -1,5 +1,6 @@
 package com.example.taskcontrol.uxui.auth.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -69,8 +70,14 @@ fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state 
                     onClick = {
                         when(state.lowercase()){
 
-                            "todo" -> { viewModel.onChangeState("doing", card_id) }
-                            "doing" -> { viewModel.onChangeState("done", card_id) }
+                            "todo" -> { viewModel.onChangeState("doing", card_id)
+                                Log.d("TaskCard", "size ${viewModel.getCardsSize()}")
+                            }
+                            "doing" -> { viewModel.onChangeState("done", card_id)
+                                Log.d("TaskCard", "size ${viewModel.getCardsSize()}")
+                            }
+
+
                         }
 
                     }) {

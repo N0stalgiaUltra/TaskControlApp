@@ -201,7 +201,7 @@ fun DoingScreen(viewModel:UserCardsViewModel){
 fun DoneScreen(viewModel: UserCardsViewModel){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
-        items(viewModel.doingCards){
+        items(viewModel.doneCards){
                 card -> TaskCard(taskName = card.title, id = card.id, viewModel, "done")
         }
 
