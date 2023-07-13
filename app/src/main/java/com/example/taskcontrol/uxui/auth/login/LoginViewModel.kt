@@ -1,6 +1,7 @@
 package com.example.taskcontrol.uxui.auth.login
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskcontrol.MainActivity
 import com.example.taskcontrol.uxui.data.AuthRepository
+import com.example.taskcontrol.uxui.data.CardsState
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -61,12 +63,14 @@ class LoginViewModel(
                 repository.loginUser(loginUiState.email, loginUiState.password){
                     isSuccesful ->
                         if(isSuccesful){
+                            getDataFromDatabase()
                             Toast.makeText(
                                 context,
-                                "Logged in",
+                                "Welcome Back ${loginUiState.username}",
                                 Toast.LENGTH_SHORT
                             ).show()
                             loginUiState = loginUiState.copy(isSuccessLogin = true)
+
                         }
                     else
                     {
@@ -87,6 +91,23 @@ class LoginViewModel(
             }
     }
 
+    private fun getDataFromDatabase() = viewModelScope.launch {
+        repository.getUserFromDatabase(repository.getUserID()){
+            user ->
+            run {
+                loginUiState = loginUiState.copy(
+                    email = user?.emailSignUp.orEmpty(),
+                    password = user?.passwordSignUp.orEmpty(),
+                    username = user?.usernameSignUp.orEmpty(),
+                    userUUID = user?.userUUID.orEmpty(),
+                )
+            Log.d("user", "email: ${loginUiState.email}, " +
+                    "username: ${loginUiState.username}, " +
+                    "UUID: ${loginUiState.userUUID}")
+            }
+        }
+    }
+
     fun logoutUser(context: Context) = viewModelScope.launch{
             Toast.makeText(context, "User signed out", Toast.LENGTH_SHORT)
             repository.logoutUser()
@@ -94,11 +115,13 @@ class LoginViewModel(
 }
 
 data class LoginUiState(
-    val email: String = "",
+    var email: String = "",
     val password: String = "",
     val username: String = "",
+    val userUUID: String = "",
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,
     val signUpError: String? = null,
-    val loginError: String? = null
+    val loginError: String? = null,
+    val cardsList: List<CardsState> = emptyList()
 )

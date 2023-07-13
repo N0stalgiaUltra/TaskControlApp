@@ -23,12 +23,12 @@ class MainActivity : ComponentActivity() {
             //instancia do loginViewModel
             val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
             val registerViewModel = viewModel(modelClass = RegisterViewModel::class.java)
+            val userCardsViewModel = viewModel(modelClass = UserCardsViewModel::class.java)
             TaskControlTheme(darkTheme = true) {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
-                    val viewModel = UserCardsViewModel()
-                    Navigation(viewModel, loginViewModel, registerViewModel)
+                    Navigation(userCardsViewModel, loginViewModel, registerViewModel)
                 }
 
             }

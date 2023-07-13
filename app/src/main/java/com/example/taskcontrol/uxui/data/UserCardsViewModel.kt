@@ -34,31 +34,31 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
         if(updatedCard != null)
         {
             repository.updateCard(updatedCard)
-            updateCards()
+            updateCards(updatedCard.userAttached)
         }
     }
 
     //Metodos Crud
     fun addCard(card: CardsState){
         repository.addCard(card)
-        updateCards()
+        updateCards(card.userAttached)
 
     }
 
     fun deleteCard(card: CardsState){
         repository.removeCard(card.id)
-        updateCards()
+        updateCards(card.userAttached)
 
     }
 
     fun updateCard(card: CardsState){
         repository.updateCard(card)
-        updateCards()
+        updateCards(card.userAttached)
     }
 
 
-    private fun updateCards(){
-        val allCards = repository.getAllCards()
+    private fun updateCards(email: String){
+        val allCards = repository.getAllUserCards(email)
         todoCards = allCards.filter { it.state.lowercase() == "todo" }
         doingCards = allCards.filter { it.state.lowercase() == "doing" }
         doneCards = allCards.filter { it.state.lowercase() == "done" }

@@ -53,13 +53,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
+fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsViewModel: UserCardsViewModel){
     val context = LocalContext.current
     val tabs = listOf("To do", "Doing", "Done")
     val stateUi = viewModel?.loginUiState
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-    val cardsViewModel = remember{ UserCardsViewModel()}
     var openDialog by remember { mutableStateOf(false) }
 
 
@@ -145,7 +144,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
             }
 
             if(openDialog){
-                CreateCardAlert(viewModel = cardsViewModel){
+                CreateCardAlert(viewModel, cardsViewModel){
                     openDialog = false
                 }
             }
@@ -168,7 +167,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel){
 @Composable
 private fun mainScreenPreview(){
     TaskControlTheme(darkTheme = true) {
-        MainScreen({}, viewModel = LoginViewModel())
+        //MainScreen({}, viewModel = LoginViewModel())
     }
 }
 
@@ -220,3 +219,6 @@ private fun DummyCardList(): List<CardsState>{
 
 }*/
 
+/*
+* Users:
+* */

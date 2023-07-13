@@ -48,7 +48,9 @@ fun RegisterScreenComponents(registerViewModel: RegisterViewModel? = null, onNav
             Spacer(modifier = Modifier.height(5.dp))
 
             ButtonComponent(
-                onClick = { registerViewModel?.createUser(context)
+                onClick = {
+                    registerViewModel?.createUser(context)
+                    //registerViewModel?.createUserDatabase()
                 },
                 text = "Create Account")
 

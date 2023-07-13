@@ -15,7 +15,7 @@ import com.example.taskcontrol.uxui.data.UserCardsViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun Navigation(viewModel: UserCardsViewModel, loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel){
+fun Navigation(userCardsViewModel: UserCardsViewModel, loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel){
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = Screen.splash_screen.route){
@@ -45,11 +45,11 @@ fun Navigation(viewModel: UserCardsViewModel, loginViewModel: LoginViewModel, re
         composable(route = Screen.main_screen.route){
             MainScreen(
                 onNavigateToLogin = {navController.navigate(Screen.login_screen.route)},
-                loginViewModel
+                loginViewModel, userCardsViewModel
             )
         }
         composable(route = Screen.forget_screen.route){
-            ForgetAccountScreen(viewModel)
+            ForgetAccountScreen(userCardsViewModel)
         }
     }
 }

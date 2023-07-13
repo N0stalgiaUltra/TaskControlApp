@@ -16,12 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateCardAlert(viewModel: UserCardsViewModel, onDismiss: ()-> Unit){
+fun CreateCardAlert(userViewModel: LoginViewModel, cardViewModel: UserCardsViewModel, onDismiss: ()-> Unit){
     var title by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -33,10 +34,11 @@ fun CreateCardAlert(viewModel: UserCardsViewModel, onDismiss: ()-> Unit){
                 val newCard = CardsState(
                     title = title,
                     id = "",
-                    state = "todo"
+                    state = "todo",
+                    userAttached = userViewModel.loginUiState.email
                 )
 
-                viewModel.addCard(newCard)
+                cardViewModel.addCard(newCard)
                 onDismiss()
             }, text = "Adicionar Card")
         },

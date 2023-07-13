@@ -1,6 +1,7 @@
 package com.example.taskcontrol.uxui.auth.register
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,13 +9,19 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskcontrol.uxui.data.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
+import java.util.UUID
 
 class RegisterViewModel(private var repository: AuthRepository = AuthRepository()): ViewModel(){
 
     val currentUser = repository.currentUser
     val hasUser = repository.hasUser()
+
+
     var registerUiState by mutableStateOf(RegisterUiState())
         private set
 
@@ -55,7 +62,8 @@ class RegisterViewModel(private var repository: AuthRepository = AuthRepository(
                         "User Created",
                         Toast.LENGTH_SHORT
                     ).show()
-                    registerUiState = registerUiState.copy(isSuccessSignUp = true)
+                    //registerUiState = registerUiState.copy(userUUID = currentUser?.uid)
+                    createUserDatabase()
                 }
                 else
                 {
@@ -75,6 +83,25 @@ class RegisterViewModel(private var repository: AuthRepository = AuthRepository(
             registerUiState = registerUiState.copy(isLoading = false)
         }
     }
+
+    fun createUserDatabase() = viewModelScope.launch{
+        try{
+            registerUiState = registerUiState.copy(userUUID = FirebaseAuth.getInstance().currentUser?.uid)
+            Log.d("user", "registration user uuid${registerUiState.userUUID}")
+            repository.addUserToDatabase(registerUiState){
+                isSuccesful ->
+                if(isSuccesful)
+                    registerUiState = registerUiState.copy(isSuccessSignUp = true)
+            }
+        }
+        catch(e: Exception){
+            registerUiState = registerUiState.copy(signUpError = e.localizedMessage)
+            e.printStackTrace()
+        }
+        finally {
+            registerUiState = registerUiState.copy(isLoading = false)
+        }
+    }
 }
 
 data class RegisterUiState(
@@ -82,6 +109,7 @@ data class RegisterUiState(
     val passwordSignUp: String = "",
     val usernameSignUp: String = "",
     val confirmPasswordSignUp: String = "",
+    val userUUID: String? = "",
     val isLoading: Boolean = false,
     val isSuccessSignUp: Boolean = false,
     val signUpError: String? = null,
