@@ -35,7 +35,7 @@ fun CreateCardAlert(userViewModel: LoginViewModel, cardViewModel: UserCardsViewM
                     title = title,
                     id = "",
                     state = "todo",
-                    userAttached = userViewModel.loginUiState.email
+                    userAttached = userViewModel.loginUiState.userUUID
                 )
 
                 cardViewModel.addCard(newCard)

@@ -60,6 +60,7 @@ class AuthRepository{
                                   onComplete: (Boolean) -> Unit) = withContext(Dispatchers.IO){
         usersRef.child(getUserID()).setValue(user).addOnCompleteListener {
             if(it.isSuccessful){
+                addCardsNodeToDatabase()
                 onComplete(true)
             }
             else
@@ -68,6 +69,10 @@ class AuthRepository{
             }
         }.await()
 
+    }
+
+    private fun addCardsNodeToDatabase(){
+        usersRef.child(getUserID()).child("cards").setValue(null);
     }
 
     fun getUserFromDatabase(userID: String, dataCallback: (RegisterUiState?) -> Unit){

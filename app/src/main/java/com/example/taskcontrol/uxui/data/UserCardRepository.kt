@@ -1,24 +1,28 @@
 package com.example.taskcontrol.uxui.data
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import java.util.UUID
 import kotlin.random.Random
 
 class UserCardRepository {
+    
+    var currentUser = FirebaseAuth.getInstance().currentUser
+    fun getUserID(): String = Firebase.auth.currentUser?.uid.orEmpty()
+
+
     private var _cards = mutableListOf<CardsState>()
     val cards get() = _cards.toList()
 
-    var userEmail: String = ""
-    var cardID: String = ""
     val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    val cardsRef: DatabaseReference = database.getReference("users/$userEmail")
 
 
-    /*TODO: Remover possibilidades de duplicatas com ID*/
+
     fun addCard(card: CardsState) {
         if(card.id.isBlank()){
-            userEmail = card.userAttached
             val newCard = card.copy(id = UUID.randomUUID().toString())
             _cards.add(newCard)
             addToDatabase(newCard)
@@ -27,9 +31,9 @@ class UserCardRepository {
 
     }
 
-    fun removeCard(id: String) {
+    fun removeCard(cardID: String) {
         _cards.removeIf {
-            id == it.id
+            cardID == it.id
         }
     }
 
@@ -38,12 +42,12 @@ class UserCardRepository {
         addCard(card)
     }
 
-    fun getCard(id: String): CardsState?{
-        return _cards.find { it.id == id}
+    fun getCard(cardID: String): CardsState?{
+        return _cards.find { it.id == cardID}
     }
 
-    fun getAllUserCards(email: String): List<CardsState>{
-        return _cards.filter { it.userAttached == email }
+    fun getAllUserCards(userID: String): List<CardsState>{
+        return _cards.filter { it.userAttached == userID }
     }
     fun getAllCards(): List<CardsState> {
         return _cards
@@ -52,8 +56,13 @@ class UserCardRepository {
 
     //Database Methods
     fun addToDatabase(newCard: CardsState){
-        cardID = newCard.id
-        cardsRef.child(cardID).setValue(newCard)
+        var userId: String = getUserID()
+        val userRef: DatabaseReference = database.getReference("users").child(userId)
+        val cardsRef = userRef.child("cards")
+
+        Log.d("cards", "DADOS: ${newCard.id}, $userId")
+
+        cardsRef.child(newCard.id).setValue(newCard)
     }
 }
 

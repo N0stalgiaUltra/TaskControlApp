@@ -57,8 +57,8 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
     }
 
 
-    private fun updateCards(email: String){
-        val allCards = repository.getAllUserCards(email)
+    private fun updateCards(userID: String){
+        val allCards = repository.getAllUserCards(userID)
         todoCards = allCards.filter { it.state.lowercase() == "todo" }
         doingCards = allCards.filter { it.state.lowercase() == "doing" }
         doneCards = allCards.filter { it.state.lowercase() == "done" }

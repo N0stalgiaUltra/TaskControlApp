@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskcontrol.uxui.data.AuthRepository
+import com.example.taskcontrol.uxui.data.CardsState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -113,4 +114,5 @@ data class RegisterUiState(
     val isLoading: Boolean = false,
     val isSuccessSignUp: Boolean = false,
     val signUpError: String? = null,
+    val cardsList: List<CardsState> = emptyList()
 )

@@ -100,6 +100,7 @@ class LoginViewModel(
                     password = user?.passwordSignUp.orEmpty(),
                     username = user?.usernameSignUp.orEmpty(),
                     userUUID = user?.userUUID.orEmpty(),
+                    cardsList = user?.cardsList.orEmpty()
                 )
             Log.d("user", "email: ${loginUiState.email}, " +
                     "username: ${loginUiState.username}, " +
