@@ -20,12 +20,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.uxui.auth.components.ButtonComponent
 import com.example.taskcontrol.uxui.auth.components.textInputFragment
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @Composable
 fun LoginComponents(onNavigateToRegister: () -> Unit,
                             onNavigateToMain: ()-> Unit,
                             onNavigateToForget: ()-> Unit,
-                            viewModel: LoginViewModel? = null
+                            viewModel: LoginViewModel? = null,
+                            cardsViewModel: UserCardsViewModel
 ){
     Box(modifier = Modifier
         .fillMaxSize()
@@ -42,8 +44,6 @@ fun LoginComponents(onNavigateToRegister: () -> Unit,
 
             ButtonComponent(onClick = {
                 viewModel?.loginUser(context)
-
-
             }, text = "Login")
 
             if(isError){

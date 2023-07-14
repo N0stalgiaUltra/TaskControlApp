@@ -33,7 +33,7 @@ fun Navigation(userCardsViewModel: UserCardsViewModel, loginViewModel: LoginView
                 navController.navigate(Screen.register_screen.route)},
             onNavigateToMain = {navController.navigate(Screen.main_screen.route)},
             onNavigateToForget = {navController.navigate(Screen.forget_screen.route)},
-                loginViewModel)
+                loginViewModel, userCardsViewModel)
         }
         composable(route = Screen.register_screen.route){
             //RegisterScreen(viewModel, userValidationViewModel) antigo

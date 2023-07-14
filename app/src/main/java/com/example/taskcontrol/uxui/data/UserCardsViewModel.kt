@@ -1,10 +1,15 @@
 package com.example.taskcontrol.uxui.data
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class UserCardsViewModel(private val repository: UserCardRepository = UserCardRepository()): ViewModel(){
@@ -27,7 +32,7 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
         card?.copy(title = title)
     }
 
-    fun onChangeState(state: String, id: String){
+    fun onChangeState(state: String, id: String) = viewModelScope.launch{
         val card = repository.getCard(id)
         val updatedCard = card?.copy(state = state)
 
@@ -39,33 +44,40 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
     }
 
     //Metodos Crud
-    fun addCard(card: CardsState){
+    fun addCard(card: CardsState) = viewModelScope.launch{
         repository.addCard(card)
         updateCards(card.userAttached)
 
     }
 
-    fun deleteCard(card: CardsState){
+    fun deleteCard(card: CardsState) = viewModelScope.launch{
         repository.removeCard(card.id)
         updateCards(card.userAttached)
 
     }
 
-    fun updateCard(card: CardsState){
+    fun updateCard(card: CardsState) = viewModelScope.launch{
         repository.updateCard(card)
         updateCards(card.userAttached)
     }
 
 
-    private fun updateCards(userID: String){
-        val allCards = repository.getAllUserCards(userID)
-        todoCards = allCards.filter { it.state.lowercase() == "todo" }
-        doingCards = allCards.filter { it.state.lowercase() == "doing" }
-        doneCards = allCards.filter { it.state.lowercase() == "done" }
+    private suspend fun updateCards(userID: String){
+        withContext(Dispatchers.IO){
+            val allCards = repository.getAllUserCards(userID)
+            todoCards = allCards.filter { it.state.lowercase() == "todo"}
+            doingCards = allCards.filter { it.state.lowercase() == "doing" }
+            doneCards = allCards.filter { it.state.lowercase() == "done" }
 
+            Log.d("cards", "${todoCards.size}")
+        }
     }
 
     fun getCardsSize(): Int{
         return repository.getAllCards().size
+    }
+
+    fun getCards(userID: String) = viewModelScope.launch{
+        updateCards(userID)
     }
 }

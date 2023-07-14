@@ -8,18 +8,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.components.TopAppBarrComponent
+import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(onNavigateToRegister: () -> Unit,
                 onNavigateToMain: ()-> Unit,
-                onNavigateToForget: ()-> Unit, viewModel: LoginViewModel
+                onNavigateToForget: ()-> Unit,
+                loginViewModel: LoginViewModel,
+                cardsViewModel: UserCardsViewModel
 ){
     Scaffold(
         topBar = { TopAppBarrComponent(text = "Login") }){
         paddingValues -> Modifier.padding(paddingValues)
-        LoginComponents(onNavigateToRegister, onNavigateToMain, onNavigateToForget, viewModel)
+        LoginComponents(
+            onNavigateToRegister,
+            onNavigateToMain,
+            onNavigateToForget,
+            loginViewModel,
+            cardsViewModel
+        )
     }
 
 
@@ -30,7 +39,8 @@ fun LoginScreen(onNavigateToRegister: () -> Unit,
 
 private fun LoginPreview(){
     TaskControlTheme(true) {
-        LoginScreen({}, {}, {}, viewModel= LoginViewModel())
+        LoginScreen({}, {}, {}, loginViewModel = LoginViewModel(),
+        cardsViewModel = UserCardsViewModel())
     }
 }
 

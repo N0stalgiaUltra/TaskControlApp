@@ -61,6 +61,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsVie
     val coroutineScope = rememberCoroutineScope()
     var openDialog by remember { mutableStateOf(false) }
 
+    cardsViewModel.getCards(stateUi?.userUUID.toString())
 
 
     Scaffold(
@@ -207,18 +208,3 @@ fun DoneScreen(viewModel: UserCardsViewModel){
     }
 }
 
-/*
-private fun DummyCardList(): List<CardsState>{
-    return listOf(
-        CardsState("Testando os Cards", 1, "", "todo"),
-        CardsState("Cards no TODO", 2, "", "todo"),
-        CardsState("Card no Doing", 3, "", "doing"),
-        CardsState("Outro Tipo", 4, "", "doing"),
-        CardsState("Outro Tipo de card", 5, "", "doing")
-    )
-
-}*/
-
-/*
-* Users:
-* */

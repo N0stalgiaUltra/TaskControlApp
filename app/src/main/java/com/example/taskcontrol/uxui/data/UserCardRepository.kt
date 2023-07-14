@@ -2,10 +2,16 @@ package com.example.taskcontrol.uxui.data
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
+import javax.security.auth.callback.Callback
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlin.random.Random
 
 class UserCardRepository {
@@ -22,6 +28,7 @@ class UserCardRepository {
 
 
     fun addCard(card: CardsState) {
+
         if(card.id.isBlank()){
             val newCard = card.copy(id = UUID.randomUUID().toString())
             _cards.add(newCard)
@@ -46,8 +53,11 @@ class UserCardRepository {
         return _cards.find { it.id == cardID}
     }
 
-    fun getAllUserCards(userID: String): List<CardsState>{
-        return _cards.filter { it.userAttached == userID }
+    suspend fun getAllUserCards(userID: String): List<CardsState> = suspendCoroutine{
+        continuation -> getCardsFromDatabase(userID){
+            cards -> val cardList = cards.filter { it?.userAttached == userID }
+            continuation.resume(cardList as List<CardsState>)
+        }
     }
     fun getAllCards(): List<CardsState> {
         return _cards
@@ -59,10 +69,45 @@ class UserCardRepository {
         var userId: String = getUserID()
         val userRef: DatabaseReference = database.getReference("users").child(userId)
         val cardsRef = userRef.child("cards")
-
-        Log.d("cards", "DADOS: ${newCard.id}, $userId")
-
         cardsRef.child(newCard.id).setValue(newCard)
+    }
+
+    fun updateCardInDatabase(){
+
+    }
+
+
+    fun getCardsFromDatabase(userID: String, dataCallback:(List<CardsState?>)-> Unit){
+        val userRef: DatabaseReference = database.getReference("users").child(userID)
+        val cardsRef = userRef.child("cards")
+        cardsRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            val cardsList : MutableList<CardsState?> = mutableListOf()
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(cardSnapshot in snapshot.children){
+                    val card = cardSnapshot.getValue(CardsState::class.java)
+                    cardsList.add(card)
+                }
+                _cards = cardsList.filterNotNull().toMutableList()
+                Log.d("cards","cards callback count ${_cards.size}")
+                dataCallback(_cards)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", error.message)
+                dataCallback(emptyList())
+            }
+        })
+    }
+
+    //Recuperar os cards, guardá-los em um objeto/list, e fazer o filtro
+    fun getCardFromDatabase(){
+
+    }
+
+    fun removeCardFromDatabase(){
+
     }
 }
 
