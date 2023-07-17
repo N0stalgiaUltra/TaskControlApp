@@ -27,13 +27,13 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
     //Metodos OnChange
     // /*TODO: Adicionar possibilidade de edição de cards*/
 
-    fun onChangeTitle(title: String, id: String) {
-        val card = repository.getCard(id)
+    fun onChangeTitle(title: String, cardID: String) {
+        val card = repository.getCard(cardID)
         card?.copy(title = title)
     }
 
-    fun onChangeState(state: String, id: String) = viewModelScope.launch{
-        val card = repository.getCard(id)
+    fun onChangeState(state: String, cardID: String) = viewModelScope.launch{
+        val card = repository.getCard(cardID)
         val updatedCard = card?.copy(state = state)
 
         if(updatedCard != null)
@@ -68,14 +68,9 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
             todoCards = allCards.filter { it.state.lowercase() == "todo"}
             doingCards = allCards.filter { it.state.lowercase() == "doing" }
             doneCards = allCards.filter { it.state.lowercase() == "done" }
-
-            Log.d("cards", "${todoCards.size}")
         }
     }
 
-    fun getCardsSize(): Int{
-        return repository.getAllCards().size
-    }
 
     fun getCards(userID: String) = viewModelScope.launch{
         updateCards(userID)

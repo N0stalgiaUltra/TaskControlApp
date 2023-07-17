@@ -71,10 +71,10 @@ fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state 
                         when(state.lowercase()){
 
                             "todo" -> { viewModel.onChangeState("doing", card_id)
-                                Log.d("TaskCard", "size ${viewModel.getCardsSize()}")
+                                Log.d("cards", "size ${viewModel.doingCards.size}")
                             }
                             "doing" -> { viewModel.onChangeState("done", card_id)
-                                Log.d("TaskCard", "size ${viewModel.getCardsSize()}")
+                                Log.d("cards", "size ${viewModel.doneCards.size}")
                             }
 
 

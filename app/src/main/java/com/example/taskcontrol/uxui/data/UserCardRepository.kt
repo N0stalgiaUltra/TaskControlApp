@@ -21,7 +21,6 @@ class UserCardRepository {
 
 
     private var _cards = mutableListOf<CardsState>()
-    val cards get() = _cards.toList()
 
     val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -34,6 +33,11 @@ class UserCardRepository {
             _cards.add(newCard)
             addToDatabase(newCard)
 
+        }
+        else
+        {
+            _cards.add(card)
+            addToDatabase(card)
         }
 
     }
@@ -65,7 +69,7 @@ class UserCardRepository {
 
 
     //Database Methods
-    fun addToDatabase(newCard: CardsState){
+    private fun addToDatabase(newCard: CardsState){
         var userId: String = getUserID()
         val userRef: DatabaseReference = database.getReference("users").child(userId)
         val cardsRef = userRef.child("cards")
@@ -76,8 +80,7 @@ class UserCardRepository {
 
     }
 
-
-    fun getCardsFromDatabase(userID: String, dataCallback:(List<CardsState?>)-> Unit){
+    private fun getCardsFromDatabase(userID: String, dataCallback:(List<CardsState?>)-> Unit){
         val userRef: DatabaseReference = database.getReference("users").child(userID)
         val cardsRef = userRef.child("cards")
         cardsRef.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -89,7 +92,6 @@ class UserCardRepository {
                     cardsList.add(card)
                 }
                 _cards = cardsList.filterNotNull().toMutableList()
-                Log.d("cards","cards callback count ${_cards.size}")
                 dataCallback(_cards)
 
             }
@@ -99,11 +101,6 @@ class UserCardRepository {
                 dataCallback(emptyList())
             }
         })
-    }
-
-    //Recuperar os cards, guardá-los em um objeto/list, e fazer o filtro
-    fun getCardFromDatabase(){
-
     }
 
     fun removeCardFromDatabase(){
