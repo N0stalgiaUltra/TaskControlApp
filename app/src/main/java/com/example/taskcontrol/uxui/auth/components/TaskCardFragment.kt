@@ -21,23 +21,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskcontrol.ui.theme.TaskControlTheme
+import com.example.taskcontrol.uxui.auth.login.LoginViewModel
+import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
+import kotlinx.coroutines.Job
 
 @Preview
 @Composable
 private fun PreviewTaskCard(){
     TaskControlTheme(true) {
-        Column() {
-
-        }
 
     }
 }
 
 @Composable
-fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state : String) {
-
-    val card_id = id
+fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel, loginViewModel: LoginViewModel) {
 
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -50,7 +48,7 @@ fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state 
             .padding(16.dp)) {
 
             Text(
-                text = taskName,
+                text = cardsState.title,
                 color = MaterialTheme.colorScheme.background,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
@@ -61,20 +59,28 @@ fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state 
 
             Row(modifier = Modifier.fillMaxWidth()){
 
-                CreateButton(text = "Remove", color = Color.Red)
-                CreateButton(text = "Edit", color = Color.Yellow)
+                CreateButton(
+                    text = "Remove",
+                    color = Color.Red,
+                    onClick = { userCardsViewModel.removeCard(cardsState.id) }
+                )
+
+                CreateButton(text = "Edit", color = Color.Yellow, onClick = {}
+                )
 
                 IconButton(
                     modifier = Modifier
                         .padding(5.dp),
                     onClick = {
-                        when(state.lowercase()){
+                        when(cardsState.state.lowercase()){
 
-                            "todo" -> { viewModel.onChangeState("doing", card_id)
-                                Log.d("cards", "size ${viewModel.doingCards.size}")
+                            "todo" -> {
+                                userCardsViewModel.onChangeState("doing", cardsState.id)
+                                Log.d("cards", "size ${userCardsViewModel.doingCards.size}")
                             }
-                            "doing" -> { viewModel.onChangeState("done", card_id)
-                                Log.d("cards", "size ${viewModel.doneCards.size}")
+                            "doing" -> {
+                                userCardsViewModel.onChangeState("done", cardsState.id)
+                                Log.d("cards", "size ${userCardsViewModel.doneCards.size}")
                             }
 
 
@@ -91,7 +97,5 @@ fun TaskCard(taskName: String, id: String, viewModel: UserCardsViewModel, state 
 
 
 }
-// Em qual aba estamos?
-// para qual aba posso ir?
 
 

@@ -9,10 +9,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
-import javax.security.auth.callback.Callback
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import kotlin.random.Random
 
 class UserCardRepository {
     
@@ -31,13 +29,13 @@ class UserCardRepository {
         if(card.id.isBlank()){
             val newCard = card.copy(id = UUID.randomUUID().toString())
             _cards.add(newCard)
-            addToDatabase(newCard)
+            addCardToDatabase(newCard)
 
         }
         else
         {
             _cards.add(card)
-            addToDatabase(card)
+            addCardToDatabase(card)
         }
 
     }
@@ -46,6 +44,7 @@ class UserCardRepository {
         _cards.removeIf {
             cardID == it.id
         }
+        removeCardFromDatabase(cardID)
     }
 
     fun updateCard(card: CardsState) {
@@ -69,17 +68,18 @@ class UserCardRepository {
 
 
     //Database Methods
-    private fun addToDatabase(newCard: CardsState){
+    private fun addCardToDatabase(newCard: CardsState){
         var userId: String = getUserID()
         val userRef: DatabaseReference = database.getReference("users").child(userId)
         val cardsRef = userRef.child("cards")
         cardsRef.child(newCard.id).setValue(newCard)
     }
-
-    fun updateCardInDatabase(){
-
+    private fun removeCardFromDatabase(cardID: String){
+        var userId: String = getUserID()
+        val userRef: DatabaseReference = database.getReference("users").child(userId)
+        val cardsRef = userRef.child("cards")
+        cardsRef.child(cardID).removeValue()
     }
-
     private fun getCardsFromDatabase(userID: String, dataCallback:(List<CardsState?>)-> Unit){
         val userRef: DatabaseReference = database.getReference("users").child(userID)
         val cardsRef = userRef.child("cards")
@@ -103,8 +103,6 @@ class UserCardRepository {
         })
     }
 
-    fun removeCardFromDatabase(){
 
-    }
 }
 

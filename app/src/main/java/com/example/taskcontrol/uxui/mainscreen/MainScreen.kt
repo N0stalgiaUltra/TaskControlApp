@@ -1,6 +1,5 @@
 package com.example.taskcontrol.uxui.mainscreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.padding
@@ -41,22 +40,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.example.taskcontrol.R
 import com.example.taskcontrol.pagerTab.pagerTabIndicatorOffset
 import com.example.taskcontrol.uxui.auth.components.CreateCardAlert
-import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsViewModel: UserCardsViewModel){
+fun MainScreen(onNavigateToLogin: ()-> Unit,
+               loginViewModel: LoginViewModel,
+               cardsViewModel: UserCardsViewModel){
     val context = LocalContext.current
     val tabs = listOf("To do", "Doing", "Done")
-    val stateUi = viewModel?.loginUiState
+    val stateUi = loginViewModel?.loginUiState
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     var openDialog by remember { mutableStateOf(false) }
@@ -100,8 +98,8 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsVie
                     }
 
                     IconButton(onClick = {
-                            viewModel.logoutUser(context)
-                            if(!viewModel.hasUser)
+                            loginViewModel.logoutUser(context)
+                            if(!loginViewModel.hasUser)
                                 onNavigateToLogin()
                     }) {
                         Icon(painter = painterResource(id = R.drawable.baseline_logout_24),
@@ -133,11 +131,12 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsVie
                     selectedTab ->
                     when(selectedTab){
                         0 -> {
-                            TodoScreen(cardsViewModel)}
+                                CardsScreen(cardsViewModel, loginViewModel, "todo")
+                            }
                         1 -> {
-                            DoingScreen(cardsViewModel)}
+                            CardsScreen(cardsViewModel, loginViewModel, "doing")}
                         2 -> {
-                            DoneScreen(cardsViewModel)
+                            CardsScreen(cardsViewModel, loginViewModel, "done")
                         }
                     }
 
@@ -145,7 +144,7 @@ fun MainScreen(onNavigateToLogin: ()-> Unit, viewModel: LoginViewModel, cardsVie
             }
 
             if(openDialog){
-                CreateCardAlert(viewModel, cardsViewModel){
+                CreateCardAlert(loginViewModel, cardsViewModel){
                     openDialog = false
                 }
             }
@@ -174,37 +173,29 @@ private fun mainScreenPreview(){
 
 
 @Composable
-fun TodoScreen(viewModel:UserCardsViewModel){
+fun CardsScreen(cardsViewModel:UserCardsViewModel, loginViewModel: LoginViewModel, state: String){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
-        items(viewModel.todoCards){
-            card -> TaskCard(taskName = card.title, id = card.id, viewModel, "todo")
+        when(state){
+            "todo" -> {
+                    items(cardsViewModel.todoCards){
+                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    }
+            }
+
+            "doing" -> {
+                    items(cardsViewModel.doingCards){
+                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    }
+            }
+
+            "done" -> {
+                    items(cardsViewModel.doneCards){
+                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    }
+            }
         }
+
 
     }
 }
-
-@Composable
-fun DoingScreen(viewModel:UserCardsViewModel){
-
-
-    LazyColumn(modifier = Modifier.padding(16.dp)) {
-
-        items(viewModel.doingCards){
-                card -> TaskCard(taskName = card.title, id = card.id, viewModel, "doing")
-        }
-
-    }
-}
-
-@Composable
-fun DoneScreen(viewModel: UserCardsViewModel){
-    LazyColumn(modifier = Modifier.padding(16.dp)) {
-
-        items(viewModel.doneCards){
-                card -> TaskCard(taskName = card.title, id = card.id, viewModel, "done")
-        }
-
-    }
-}
-

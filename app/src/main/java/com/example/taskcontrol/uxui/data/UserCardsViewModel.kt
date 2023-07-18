@@ -1,16 +1,13 @@
 package com.example.taskcontrol.uxui.data
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 class UserCardsViewModel(private val repository: UserCardRepository = UserCardRepository()): ViewModel(){
 
@@ -50,17 +47,15 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
 
     }
 
-    fun deleteCard(card: CardsState) = viewModelScope.launch{
-        repository.removeCard(card.id)
-        updateCards(card.userAttached)
+    fun removeCard(cardID: String) = viewModelScope.launch{
+        val card = repository.getCard(cardID)
+        repository.removeCard(cardID)
+
+        if (card != null) {
+            updateCards(card.userAttached)
+        }
 
     }
-
-    fun updateCard(card: CardsState) = viewModelScope.launch{
-        repository.updateCard(card)
-        updateCards(card.userAttached)
-    }
-
 
     private suspend fun updateCards(userID: String){
         withContext(Dispatchers.IO){
