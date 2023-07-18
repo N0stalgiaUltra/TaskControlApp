@@ -22,7 +22,9 @@ import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateCardAlert(userViewModel: LoginViewModel, cardViewModel: UserCardsViewModel, onDismiss: ()-> Unit){
+fun CreateCardAlert(userViewModel: LoginViewModel,
+                    cardViewModel: UserCardsViewModel,
+                    onDismiss: ()-> Unit){
     var title by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -62,6 +64,53 @@ fun CreateCardAlert(userViewModel: LoginViewModel, cardViewModel: UserCardsViewM
                     placeholder = {
                         Text(
                             "What are you up to?",
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    })
+
+            }
+
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CreateCardAlert(card: CardsState,
+                    cardViewModel: UserCardsViewModel,
+                    onDismiss: ()-> Unit){
+    var title by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+
+        confirmButton = {
+            ButtonComponent(onClick = {
+
+                cardViewModel.onChangeCardTitle(title, card.id)
+                onDismiss()
+            }, text = "Editar Card")
+        },
+
+        dismissButton = {
+            ButtonComponent(onClick = { onDismiss() }, text = "Fechar")
+        },
+        title = {
+            Text(
+                text = "Create Button",
+                color = MaterialTheme.colorScheme.primary
+            )
+        },
+        text = {
+            Column(modifier = Modifier.padding(5.dp)) {
+                TextField(
+                    value = title,
+                    onValueChange = {
+                        title = it
+                    },
+                    placeholder = {
+                        Text(
+                            "Edit your title",
                             color = MaterialTheme.colorScheme.primary
                         )
                     })

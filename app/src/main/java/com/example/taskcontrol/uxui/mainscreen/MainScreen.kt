@@ -131,12 +131,12 @@ fun MainScreen(onNavigateToLogin: ()-> Unit,
                     selectedTab ->
                     when(selectedTab){
                         0 -> {
-                                CardsScreen(cardsViewModel, loginViewModel, "todo")
+                                CardsScreen(cardsViewModel, "todo")
                             }
                         1 -> {
-                            CardsScreen(cardsViewModel, loginViewModel, "doing")}
+                            CardsScreen(cardsViewModel, "doing")}
                         2 -> {
-                            CardsScreen(cardsViewModel, loginViewModel, "done")
+                            CardsScreen(cardsViewModel, "done")
                         }
                     }
 
@@ -173,25 +173,25 @@ private fun mainScreenPreview(){
 
 
 @Composable
-fun CardsScreen(cardsViewModel:UserCardsViewModel, loginViewModel: LoginViewModel, state: String){
+fun CardsScreen(cardsViewModel:UserCardsViewModel, state: String){
     LazyColumn(modifier = Modifier.padding(16.dp)) {
 
         when(state){
             "todo" -> {
                     items(cardsViewModel.todoCards){
-                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    card -> TaskCard(card, cardsViewModel)
                     }
             }
 
             "doing" -> {
                     items(cardsViewModel.doingCards){
-                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    card -> TaskCard(card, cardsViewModel)
                     }
             }
 
             "done" -> {
                     items(cardsViewModel.doneCards){
-                    card -> TaskCard(card, cardsViewModel, loginViewModel)
+                    card -> TaskCard(card, cardsViewModel)
                     }
             }
         }

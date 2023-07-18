@@ -15,6 +15,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +28,6 @@ import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.data.CardsState
 import com.example.taskcontrol.uxui.data.UserCardsViewModel
-import kotlinx.coroutines.Job
 
 @Preview
 @Composable
@@ -35,8 +38,8 @@ private fun PreviewTaskCard(){
 }
 
 @Composable
-fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel, loginViewModel: LoginViewModel) {
-
+fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel) {
+    var openDialog by remember { mutableStateOf(false) }
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -65,7 +68,8 @@ fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel, log
                     onClick = { userCardsViewModel.removeCard(cardsState.id) }
                 )
 
-                CreateButton(text = "Edit", color = Color.Yellow, onClick = {}
+                CreateButton(text = "Edit", color = Color.Yellow, onClick = {
+                    openDialog = true }
                 )
 
                 IconButton(
@@ -75,11 +79,11 @@ fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel, log
                         when(cardsState.state.lowercase()){
 
                             "todo" -> {
-                                userCardsViewModel.onChangeState("doing", cardsState.id)
+                                userCardsViewModel.onChangeCardState("doing", cardsState.id)
                                 Log.d("cards", "size ${userCardsViewModel.doingCards.size}")
                             }
                             "doing" -> {
-                                userCardsViewModel.onChangeState("done", cardsState.id)
+                                userCardsViewModel.onChangeCardState("done", cardsState.id)
                                 Log.d("cards", "size ${userCardsViewModel.doneCards.size}")
                             }
 
@@ -92,6 +96,12 @@ fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel, log
                     }
             }
 
+        }
+    }
+
+    if(openDialog){
+        CreateCardAlert(card = cardsState, cardViewModel = userCardsViewModel) {
+            openDialog = false
         }
     }
 

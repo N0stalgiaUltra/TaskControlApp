@@ -24,12 +24,17 @@ class UserCardsViewModel(private val repository: UserCardRepository = UserCardRe
     //Metodos OnChange
     // /*TODO: Adicionar possibilidade de edição de cards*/
 
-    fun onChangeTitle(title: String, cardID: String) {
+    fun onChangeCardTitle(title: String, cardID: String)  = viewModelScope.launch{
         val card = repository.getCard(cardID)
-        card?.copy(title = title)
+        val updatedCard = card?.copy(title = title)
+
+        if(updatedCard != null){
+            repository.updateCard(updatedCard)
+            updateCards(updatedCard.userAttached)
+        }
     }
 
-    fun onChangeState(state: String, cardID: String) = viewModelScope.launch{
+    fun onChangeCardState(state: String, cardID: String) = viewModelScope.launch{
         val card = repository.getCard(cardID)
         val updatedCard = card?.copy(state = state)
 
