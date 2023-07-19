@@ -1,3 +1,6 @@
+![Screenshot_20230719_183002](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/0a6986e4-94da-467d-ba67-c2b6fbb70dc9)
+![Uploading Screenshot_20230719_182545.png…]()
+![Uploading Screenshot_20230719_183647.png…]()
 # Task Control App
 
 - (PT-BR) <br>
@@ -34,7 +37,14 @@ Quando utlizamos JetpackCompose, ficamos propensos a utilizar de uma das melhore
 
 No Task Control, o fluxo de telas é algo importante, afinal, podemos contar na mão quantos apps tem apenas uma tela. O fluxo foi montado de forma que a navegação acontecesse de forma simples e respeitando as regras de negócio implementadas nos View Models.
 
+### Suporte para Temas Claro/Escuro
+
+Graças ao Compose, é muito simples definir o suporte para um tema claro e escuro. O usuário pode definir qual o tipo de tema mais o agrada escolhendo um dos dois tipos.
+
 # Imagens/Images
-📫 TODO
+
+![Uploading Screenshot_20230719_183515.png…]()
+![Uploading Screenshot_20230719_183429.png…]()
+
 
 
