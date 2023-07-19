@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,7 +34,9 @@ import com.example.taskcontrol.uxui.data.UserCardsViewModel
 @Composable
 private fun PreviewTaskCard(){
     TaskControlTheme(true) {
-
+        TaskCard(cardsState = CardsState(title = "Teste de card",
+            id = "", "", "doing")
+            , userCardsViewModel = UserCardsViewModel())
     }
 }
 
@@ -62,6 +65,30 @@ fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel) {
 
             Row(modifier = Modifier.fillMaxWidth()){
 
+                if(cardsState.state != "todo"){
+                    IconButton(
+                        modifier = Modifier
+                            .padding(5.dp),
+                        onClick = {
+                            when(cardsState.state.lowercase()){
+
+                                "doing" -> {
+                                    userCardsViewModel.onChangeCardState("todo", cardsState.id)
+                                    Log.d("cards", "size ${userCardsViewModel.doingCards.size}")
+                                }
+                                "done" -> {
+                                    userCardsViewModel.onChangeCardState("doing", cardsState.id)
+                                    Log.d("cards", "size ${userCardsViewModel.doneCards.size}")
+                                }
+
+
+                            }
+
+                        }){
+                        Icon(imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Arrow Icon")}
+                }
+
                 CreateButton(
                     text = "Remove",
                     color = Color.Red,
@@ -72,28 +99,31 @@ fun TaskCard(cardsState: CardsState, userCardsViewModel: UserCardsViewModel) {
                     openDialog = true }
                 )
 
-                IconButton(
-                    modifier = Modifier
-                        .padding(5.dp),
-                    onClick = {
-                        when(cardsState.state.lowercase()){
+                if(cardsState.state != "done"){
+                    IconButton(
+                        modifier = Modifier
+                            .padding(5.dp),
+                        onClick = {
+                            when(cardsState.state.lowercase()){
 
-                            "todo" -> {
-                                userCardsViewModel.onChangeCardState("doing", cardsState.id)
-                                Log.d("cards", "size ${userCardsViewModel.doingCards.size}")
+                                "todo" -> {
+                                    userCardsViewModel.onChangeCardState("doing", cardsState.id)
+                                    Log.d("cards", "size ${userCardsViewModel.doingCards.size}")
+                                }
+                                "doing" -> {
+                                    userCardsViewModel.onChangeCardState("done", cardsState.id)
+                                    Log.d("cards", "size ${userCardsViewModel.doneCards.size}")
+                                }
+
+
                             }
-                            "doing" -> {
-                                userCardsViewModel.onChangeCardState("done", cardsState.id)
-                                Log.d("cards", "size ${userCardsViewModel.doneCards.size}")
-                            }
 
-
-                        }
-
-                    }) {
-                    Icon(imageVector = Icons.Filled.ArrowForward,
-                        contentDescription = "Arrow Icon")
+                        }) {
+                        Icon(imageVector = Icons.Filled.ArrowForward,
+                            contentDescription = "Arrow Icon")
                     }
+                }
+
             }
 
         }

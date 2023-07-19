@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
             val registerViewModel = viewModel(modelClass = RegisterViewModel::class.java)
             val userCardsViewModel = viewModel(modelClass = UserCardsViewModel::class.java)
-            TaskControlTheme(darkTheme = true) {
+            TaskControlTheme(darkTheme = false) {
                 Box(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {

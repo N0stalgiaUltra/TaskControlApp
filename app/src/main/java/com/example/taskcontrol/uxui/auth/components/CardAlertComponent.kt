@@ -42,7 +42,7 @@ fun CreateCardAlert(userViewModel: LoginViewModel,
 
                 cardViewModel.addCard(newCard)
                 onDismiss()
-            }, text = "Adicionar Card")
+            }, text = "Add Card")
         },
 
         dismissButton = {
@@ -89,7 +89,7 @@ fun CreateCardAlert(card: CardsState,
 
                 cardViewModel.onChangeCardTitle(title, card.id)
                 onDismiss()
-            }, text = "Editar Card")
+            }, text = "Edit Card")
         },
 
         dismissButton = {
