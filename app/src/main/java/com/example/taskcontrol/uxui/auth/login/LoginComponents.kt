@@ -40,7 +40,7 @@ fun LoginComponents(onNavigateToRegister: () -> Unit,
             val context = LocalContext.current
 
             textInputFragment("L_Email", "email@email.com", viewModel)
-            textInputFragment("L_Password", "********", viewModel)
+            textInputFragment("L_Password", "password", viewModel)
 
             ButtonComponent(onClick = {
                 viewModel?.loginUser(context)

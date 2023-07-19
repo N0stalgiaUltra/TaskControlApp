@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import com.example.taskcontrol.uxui.auth.forgetpassword.ForgetPasswordViewModel
 import com.example.taskcontrol.uxui.auth.login.LoginViewModel
 import com.example.taskcontrol.uxui.auth.register.RegisterViewModel
 
@@ -33,6 +34,7 @@ fun <T>textInputFragment(label: String, placeholder: String,
         "R_Confirm Password" -> createRegisterTextField(viewModel = userViewModel as? RegisterViewModel, label = "Confirm Password", placeholder = placeholder)
         "L_Email" -> createLoginTextField(viewModel = userViewModel as? LoginViewModel, label = "Email", placeholder = placeholder)
         "L_Password" -> createLoginTextField(viewModel = userViewModel as? LoginViewModel, label = "Password", placeholder = placeholder)
+        "F_Email" -> createForgetPasswordTextField(viewModel = userViewModel as? ForgetPasswordViewModel, label = "Email", placeholder = placeholder)
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
@@ -141,6 +143,26 @@ private fun createLoginTextField(viewModel: LoginViewModel?= null, label: String
             )
         }
 
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun createForgetPasswordTextField(viewModel: ForgetPasswordViewModel?= null, label: String, placeholder: String){
+    when(label){
+        "Email" -> {
+            OutlinedTextField(
+                value = viewModel?.forgetUiState?.email.toString(),
+                onValueChange = {viewModel?.onEmailChange(email = it)},
+                Modifier.fillMaxWidth(),
+                maxLines = 1,
+                colors = textFieldColors(
+                    textColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.primary),
+                placeholder = {
+                    Text(text = placeholder, color = MaterialTheme.colorScheme.background)
+                },
+            )}
     }
 }
 

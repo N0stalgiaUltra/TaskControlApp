@@ -56,6 +56,19 @@ class AuthRepository{
             }.await()
     }
 
+    suspend fun forgotUserPassword(
+        email: String,
+        onComplete: (Boolean) -> Unit)
+        = withContext(Dispatchers.IO){
+        Firebase.auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener {
+                if(it.isSuccessful)
+                    onComplete(true)
+
+                else
+                    onComplete(false)
+            }.await()
+    }
     suspend fun addUserToDatabase(user: RegisterUiState,
                                   onComplete: (Boolean) -> Unit) = withContext(Dispatchers.IO){
         usersRef.child(getUserID()).setValue(user).addOnCompleteListener {
@@ -93,5 +106,7 @@ class AuthRepository{
     fun logoutUser(){
         Firebase.auth.signOut()
     }
+
+
 }
 
