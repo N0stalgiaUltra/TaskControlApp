@@ -1,6 +1,4 @@
-![Screenshot_20230719_183002](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/0a6986e4-94da-467d-ba67-c2b6fbb70dc9)
-![Uploading Screenshot_20230719_182545.png…]()
-![Uploading Screenshot_20230719_183647.png…]()
+
 # Task Control App
 
 - (PT-BR) <br>
@@ -42,9 +40,9 @@ No Task Control, o fluxo de telas é algo importante, afinal, podemos contar na 
 Graças ao Compose, é muito simples definir o suporte para um tema claro e escuro. O usuário pode definir qual o tipo de tema mais o agrada escolhendo um dos dois tipos.
 
 # Imagens/Images
-
-![Uploading Screenshot_20230719_183515.png…]()
-![Uploading Screenshot_20230719_183429.png…]()
-
-
+![Screenshot_20230719_182545](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/66a6d6b9-b257-4816-a60c-8983a51b1fb0)
+![Screenshot_20230719_183002](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/0a6986e4-94da-467d-ba67-c2b6fbb70dc9)
+![Screenshot_20230719_183429](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/3346d892-5b5b-42bb-95cf-ea2bc0723a07)
+![Screenshot_20230719_183515](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/1fabcab9-a327-4252-9861-7b38f0e65dfa)
+![Screenshot_20230719_183647](https://github.com/N0stalgiaUltra/TaskControlApp/assets/53880840/b54086fa-0790-4add-83d3-3a036d14c2c8)
 
