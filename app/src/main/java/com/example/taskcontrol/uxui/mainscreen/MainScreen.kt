@@ -59,6 +59,11 @@ fun MainScreen(onNavigateToLogin: ()-> Unit,
     val coroutineScope = rememberCoroutineScope()
     var openDialog by remember { mutableStateOf(false) }
 
+    if(!loginViewModel.hasUser) run {
+        loginViewModel.logoutUser(context)
+        onNavigateToLogin()
+    }
+
     cardsViewModel.getCards(stateUi?.userUUID.toString())
 
 

@@ -19,14 +19,16 @@ import com.example.taskcontrol.ui.theme.TaskControlTheme
 import com.example.taskcontrol.uxui.auth.components.ButtonComponent
 import com.example.taskcontrol.uxui.auth.components.TopAppBarrComponent
 import com.example.taskcontrol.uxui.auth.components.textInputFragment
-import com.example.taskcontrol.uxui.data.UserCardsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgetAccountScreen(viewModel: ForgetPasswordViewModel){
+fun ForgetAccountScreen(
+    viewModel: ForgetPasswordViewModel,
+    onNavigateToLogin: ()-> Unit
+){
     Scaffold(topBar = { TopAppBarrComponent(text = "Retrieve Account") }) {
         paddingValues -> Modifier.padding(paddingValues)
-        ForgetAccountScreenComponents(viewModel)
+        ForgetAccountScreenComponents(viewModel, onNavigateToLogin)
     }
 }
 
@@ -39,7 +41,10 @@ private fun PreviewForgetScreen(){
 }
 
 @Composable
-private fun ForgetAccountScreenComponents(viewModel: ForgetPasswordViewModel){
+private fun ForgetAccountScreenComponents(
+    viewModel: ForgetPasswordViewModel,
+    onLoginScreen: ()-> Unit
+    ){
     val context = LocalContext.current
     Box(modifier = Modifier
         .fillMaxSize(),
@@ -54,7 +59,10 @@ private fun ForgetAccountScreenComponents(viewModel: ForgetPasswordViewModel){
             Spacer(modifier = Modifier.height(10.dp))
 
             ButtonComponent(
-                onClick = {viewModel.sendPasswordEmail(context)},
+                onClick = {
+                    viewModel.sendPasswordEmail(context)
+                    onLoginScreen()
+                    },
                 text = "Retrieve Account")
         }
     }
