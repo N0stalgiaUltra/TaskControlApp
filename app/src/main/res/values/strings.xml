@@ -2,4 +2,5 @@
     <string name="app_name">TaskControl</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splash_screen_msg"> Made with &#10084;&#65039; by Vinicius Santos </string>
 </resources>
