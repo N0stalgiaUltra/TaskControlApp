@@ -110,7 +110,7 @@ class LoginViewModel(
     }
 
     fun logoutUser(context: Context) = viewModelScope.launch{
-            Toast.makeText(context, "User signed out", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "User signed out", Toast.LENGTH_SHORT).show()
             repository.logoutUser()
     }
 }

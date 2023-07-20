@@ -3,13 +3,22 @@ package com.example.taskcontrol.uxui.auth.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -39,9 +48,11 @@ fun <T>textInputFragment(label: String, placeholder: String,
     Spacer(modifier = Modifier.height(8.dp))
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun createRegisterTextField(viewModel: RegisterViewModel?= null, label: String, placeholder: String){
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     when(label){
         "Username" -> {
@@ -51,117 +62,175 @@ private fun createRegisterTextField(viewModel: RegisterViewModel?= null, label: 
                                     viewModel?.onUsernameSignupChange(username = it)
                                     print(viewModel?.registerUiState?.usernameSignUp ?: "nada ainda")
                                 },
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions (
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-            )
-        }
+                modifier = Modifier.fillMaxWidth(),
+            )}
 
         "Email" -> {
             OutlinedTextField(
                 value = viewModel?.registerUiState?.emailSignUp ?: "",
                 onValueChange = {viewModel?.onEmailSignupChange(email = it)},
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
+                modifier = Modifier.fillMaxWidth(),
+
             )}
         "Password" ->{
             OutlinedTextField(
                 value = viewModel?.registerUiState?.passwordSignUp ?: "",
                 onValueChange = {viewModel?.onPasswordSignupChange(password = it)},
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-                visualTransformation = PasswordVisualTransformation()
-            )
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth())
         }
         "Confirm Password" ->{
 
             OutlinedTextField(
-                value = viewModel?.registerUiState?.confirmPasswordSignUp ?: "" ,
-                onValueChange = {
-                    viewModel?.onConfirmPasswordSignupChange(confirmPassword = it)
-                },
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                value = viewModel?.registerUiState?.confirmPasswordSignUp ?: "",
+                onValueChange = {viewModel?.onConfirmPasswordSignupChange(confirmPassword = it)},
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-                visualTransformation = PasswordVisualTransformation())
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth())
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun createLoginTextField(viewModel: LoginViewModel?= null, label: String, placeholder: String){
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     when(label){
         "Email" -> {
             OutlinedTextField(
                 value = viewModel?.loginUiState?.email ?: "",
                 onValueChange = {viewModel?.onEmailChange(email = it)},
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-            )}
+                modifier = Modifier.fillMaxWidth(),
+                )}
         "Password" ->{
             OutlinedTextField(
                 value = viewModel?.loginUiState?.password ?: "",
                 onValueChange = {viewModel?.onPasswordChange(password = it)},
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-private fun createForgetPasswordTextField(viewModel: ForgetPasswordViewModel?= null, label: String, placeholder: String){
+private fun createForgetPasswordTextField(
+    viewModel: ForgetPasswordViewModel?= null,
+    label: String,
+    placeholder: String){
+
+    val keyboardController = LocalSoftwareKeyboardController.current
     when(label){
         "Email" -> {
             OutlinedTextField(
                 value = viewModel?.forgetUiState?.email.toString(),
                 onValueChange = {viewModel?.onEmailChange(email = it)},
-                Modifier.fillMaxWidth(),
-                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                singleLine = true,
                 colors = textFieldColors(
                     textColor = MaterialTheme.colorScheme.background,
                     containerColor = MaterialTheme.colorScheme.primary),
                 placeholder = {
                     Text(text = placeholder, color = MaterialTheme.colorScheme.background)
                 },
+                modifier = Modifier.fillMaxWidth()
             )}
     }
 }

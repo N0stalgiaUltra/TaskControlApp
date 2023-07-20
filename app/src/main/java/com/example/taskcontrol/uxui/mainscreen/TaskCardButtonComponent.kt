@@ -1,4 +1,4 @@
-package com.example.taskcontrol.uxui.auth.components
+package com.example.taskcontrol.uxui.mainscreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.height

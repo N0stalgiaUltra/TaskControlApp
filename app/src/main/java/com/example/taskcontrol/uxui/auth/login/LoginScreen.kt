@@ -35,8 +35,8 @@ fun LoginScreen(onNavigateToRegister: () -> Unit,
 
 }
 @Preview
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 private fun LoginPreview(){
     TaskControlTheme(true) {
         LoginScreen({}, {}, {}, loginViewModel = LoginViewModel(),
