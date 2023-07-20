@@ -5,7 +5,7 @@
 O Task Control é um app que utiliza do paradigma <a href="https://pt.wikipedia.org/wiki/Kanban"> Kanban</a> para ajudar o usuário a organizar suas tarefas em um período de tempo. O app está sendo desenvolvido em Kotlin e Jetpack Compose.
 Este é um projeto criado para apenas para fins de aprendizado.
 
--(EN) 
+- (EN) 
 Task Control is an app that uses the <a href="https://pt.wikipedia.org/wiki/Kanban"> Kanban</a> paradigm to help users organize their tasks in a period of time. The app is being developed in Kotlin and Jetpack Compose.
 This is a project created for learning purposes only.
 
